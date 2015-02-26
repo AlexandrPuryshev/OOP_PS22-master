@@ -1,0 +1,5 @@
+﻿  solve.cpp
+e:\forworking\ооп\лаба1\solve\solve\solve.cpp(29): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+e:\forworking\ооп\лаба1\solve\solve\solve.cpp(30): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+e:\forworking\ооп\лаба1\solve\solve\solve.cpp(31): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+  solve.vcxproj -> E:\ForWorking\ООП\Лаба1\solve\Debug\solve.exe
