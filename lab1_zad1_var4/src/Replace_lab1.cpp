@@ -8,15 +8,21 @@
 using namespace std;
 
 
-void ReplaceString(ifstream &fIn, ofstream &fOut, string sSearchString, string sReplaceString, bool bFlag)
+void ReplaceString(ifstream &fIn, ofstream &fOut, string sSearchString, string sReplaceString, bool &bFlag) // не только замена слова, но и в строке тоже!
 {
-	int count = 0;
 	while (!fIn.eof() && sSearchString.length() > 0)
 	{
 		string sReplacerString;
 		fIn >> sReplacerString;
+		size_t pos = sReplacerString.find(sSearchString);
+		int iLenStr = sSearchString.length();
 		char chSymbolTrancsfer = fIn.get();
-		if (sReplacerString == sSearchString)
+		if (pos != std::string::npos)
+		{
+			bFlag = true;
+			sReplacerString.replace(pos, iLenStr, sReplaceString);
+		}
+		else if (sReplacerString == sSearchString)
 		{
 			bFlag = true;
 			sReplacerString = sReplaceString;
@@ -35,20 +41,20 @@ int main(int argc, char* argv[])
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	/*if (argc != 5)
+	if (argc != 5)
 	{
 		cout << "Incorrect format of input!" << endl;
 		return 0;
-	}*/
+	}
 	string sSearchString, sReplaceString;
-	sSearchString = "ma"/*(const char*)argv[3]*/;
-	sReplaceString = "mama"/*(const char*)argv[4]*/;
+	sSearchString = (const char*)argv[3];
+	sReplaceString = (const char*)argv[4];
 
 	if ((strlen(argv[1]) > 0) && (strlen(argv[2]) > 0))
 	{
 		bool bFlag = false;
 		ifstream fIn;
-		fIn.open("inputMam.txt"/*(const char*)argv[1]*/, ios::in);
+		fIn.open((const char*)argv[1], ios::in);
 		if (fIn.fail()) // check opening of the file
 		{
 			cout << "Error when opening files of reading" << endl;
@@ -58,10 +64,11 @@ int main(int argc, char* argv[])
 		else
 		{
 			ofstream fOut;
-			fOut.open("output1.txt"/*(const char*)argv[2]*/, ios::out);
-			if (fIn.fail())
+			fOut.open((const char*)argv[2], ios::out);
+			if (fOut.fail())
 			{
 				cout << "Error when opening files of writing" << endl;
+				fIn.close();
 				fOut.close();
 				return 0;
 			}
@@ -69,6 +76,8 @@ int main(int argc, char* argv[])
 			if (bFlag == false)
 			{
 				cout << "Such line isn't present!" << endl;
+				fIn.close();
+				fOut.close();
 				return 0;
 			}
 			else
@@ -82,7 +91,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		cout << "lenght argv[1] or argv[2] <= 0!" << endl;
+		cout << "Such file isn't present!" << endl;
 		return 0;
 	}
 	return 0;
