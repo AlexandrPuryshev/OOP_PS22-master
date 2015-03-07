@@ -6,6 +6,26 @@ REM запуск программы с одним параметром
 solve.exe 2
 IF ERRORLEVEL 1 GOTO err
 
+REM запуск программы с 5 параметрами
+solve.exe 2 5 6 7 8
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с 2 параметрами
+solve.exe 2 5
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с 2 буквами
+solve.exe a b
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с 3 буквами
+solve.exe a b c
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с 1 буквой
+solve.exe a
+IF ERRORLEVEL 1 GOTO err
+
 REM запуск программы с отрицательным дискрименантом
 solve.exe 5 3 7
 IF ERRORLEVEL 1 GOTO err
