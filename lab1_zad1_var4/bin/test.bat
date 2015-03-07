@@ -1,7 +1,15 @@
-@echo off
+echo off
 
 REM запуск программы с несуществующими именами файлов 
-Replace_lab1.exe 1.txt 2.txt friend friends
+Replace_lab1.exe IncorrectFile.txt NoOpenFile.txt friend friends
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с несуществующими именами файлов 
+Replace_lab1.exe "" output.txt  friend friends
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с пустой строкой
+Replace_lab1.exe input.txt output.txt "" ff
 IF ERRORLEVEL 1 GOTO err
 
 REM запуск программы с несуществующими именами файлов 
@@ -16,24 +24,33 @@ REM запуск программы с неполными параметрами
 Replace_lab1.exe input.txt output.txt friends
 IF ERRORLEVEL 1 GOTO err
 
-REM запуск программы с пустой строкой
-Replace_lab1.exe input.txt output.txt "" ff
+REM запуск программы с неполными параметрами
+Replace_lab1.exe input.txt friends
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с неполными параметрами
+Replace_lab1.exe input.txt
 IF ERRORLEVEL 1 GOTO err
 
 REM запуск программы с верными параметрами
-Replace_lab1.exe inputMam.txt output1.txt mam mama
+Replace_lab1.exe inputMam.txt output1.txt ma mama
 IF ERRORLEVEL 1 GOTO err
-FC /B output.txt outputMam.txt
+FC /B output1.txt outputMam.txt
+
+REM запуск программы с верными параметрами
+Replace_lab1.exe input_fffmafff.txt output4.txt ma mama
+IF ERRORLEVEL 1 GOTO err
+FC /B output4.txt output_ffffmafff
 
 REM запуск программы с верными параметрами
 Replace_lab1.exe inputf.txt output2.txt f ff
 IF ERRORLEVEL 1 GOTO err
-FC /B output.txt outputf.txt
+FC /B output2.txt outputf.txt
 
 REM запуск программы с верными параметрами
 Replace_lab1.exe input.txt output3.txt €блоко груша
 IF ERRORLEVEL 1 GOTO err
-FC /B output.txt outputGRYSH.txt
+FC /B output3.txt outputGRYSH.txt
 
 
 ECHO Program testing succeeded :-)

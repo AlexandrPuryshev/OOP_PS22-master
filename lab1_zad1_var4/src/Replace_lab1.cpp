@@ -35,20 +35,20 @@ int main(int argc, char* argv[])
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	if (argc != 5)
+	/*if (argc != 5)
 	{
 		cout << "Incorrect format of input!" << endl;
 		return 0;
-	}
+	}*/
 	string sSearchString, sReplaceString;
-	sSearchString = (const char*)argv[3];
-	sReplaceString = (const char*)argv[4];
+	sSearchString = "ma"/*(const char*)argv[3]*/;
+	sReplaceString = "mama"/*(const char*)argv[4]*/;
 
 	if ((strlen(argv[1]) > 0) && (strlen(argv[2]) > 0))
 	{
 		bool bFlag = false;
 		ifstream fIn;
-		fIn.open(argv[1], ios::in);
+		fIn.open("inputMam.txt"/*(const char*)argv[1]*/, ios::in);
 		if (fIn.fail()) // check opening of the file
 		{
 			cout << "Error when opening files of reading" << endl;
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			ofstream fOut;
-			fOut.open(argv[2]);
+			fOut.open("output1.txt"/*(const char*)argv[2]*/, ios::out);
 			if (fIn.fail())
 			{
 				cout << "Error when opening files of writing" << endl;
@@ -69,11 +69,11 @@ int main(int argc, char* argv[])
 			if (bFlag == false)
 			{
 				cout << "Such line isn't present!" << endl;
+				return 0;
 			}
 			else
 			{
 				cout << "Action is executed" << endl;
-				getchar();
 			}
 			fIn.close();
 			fOut.close();
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		cout << "Such file isn't present!" << endl;
+		cout << "lenght argv[1] or argv[2] <= 0!" << endl;
 		return 0;
 	}
 	return 0;
