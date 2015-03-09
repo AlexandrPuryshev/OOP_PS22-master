@@ -10,7 +10,7 @@ using namespace std;
 
 const int N = 3; //dimension of the matrix (3 * 3)
 
-void vMultiply(float fMatrix1[N][N], float fMatrix2[N][N], float fResultfMatrix[N][N])
+void Multiply(float fMatrix1[N][N], float fMatrix2[N][N], float fResultfMatrix[N][N])
 {
 	for (int i = 0; i < N; i++)
 	{
@@ -25,18 +25,24 @@ void vMultiply(float fMatrix1[N][N], float fMatrix2[N][N], float fResultfMatrix[
 	}
 }
 
-void vReadingFromFile(ifstream &File, float fMatrix[N][N])
+void ReadingFromFile(ifstream &File, float fMatrix[N][N])
 {
-	for (int i = 0; i < N; i++)
+	int i, j;
+	for (i = 0; i < N; i++)
 	{
-		for (int j = 0; j < N; j++)
+		for (j = 0; j < N; j++)
 		{
-			File >> fMatrix[i][j];
+				if (!(File >> fMatrix[i][j]))
+				{
+					cout << "this is not matrix (3*3)!" << endl;
+					File.close();
+					exit(-1);
+				}
 		}
 	}
 }
 
-void vShowfMatrix(float fMatrix[N][N])
+void ShowfMatrix(float fMatrix[N][N])
 {
 	int i, j;
 	for (i = 0; i < N; i++)
@@ -44,27 +50,13 @@ void vShowfMatrix(float fMatrix[N][N])
 		printf("\n\n");
 		for (j = 0; j < N; j++)
 		{
-			printf("%6.3f", fMatrix[i][j]);
+			printf("|%6.3f|", fMatrix[i][j]);
 		}
 	}
 }
 
-void vSizeOfFile(ifstream &file, int iValue)
-{
-	char ch;
-	while (file >> ch)
-	{
-		iValue++;
-	}
-}
 
-//9 to 63 with a matrix of 3 * 3
-
-/*0		 0		0    |	 999.999 999.999 999.999
-0		 0		0    |	 999.999 999.999 999.999
-0		 0		0    |	 999.999 999.999 999.999.*/
-
-float fInverseFunction(float fMatrix[N][N], int iRow, int iCol)
+float InverseFunction(float fMatrix[N][N], int iRow, int iCol)
 {
 	float fAdditMatrix[N - 1][N - 1];
 
@@ -87,6 +79,38 @@ float fInverseFunction(float fMatrix[N][N], int iRow, int iCol)
 		return -((fAdditMatrix[0][0] * fAdditMatrix[1][1]) - (fAdditMatrix[0][1] * fAdditMatrix[1][0]));
 }
 
+//void CheckSizeOfMatrix(ifstream &File)
+//{
+//	string StringAllFile;
+//	string StirngDitarminate;
+//	int RowCount = 1, ElementInMass = 0;
+//	int ColCount, CountElementInMass = 0;
+//	int count = 0;
+//	char chSymbolTrancsfer;
+//	while (!File.eof())
+//	{
+//		getline(File, StirngDitarminate);
+//		File >> chSymbolTrancsfer;
+//		StringAllFile += StirngDitarminate + chSymbolTrancsfer;
+//		if (chSymbolTrancsfer == '\n') // next row in file: "\n"
+//		{
+//			RowCount++;
+//		}
+//	}
+//	while (StringAllFile[count] != EOF)
+//	{
+//		if (isdigit(StringAllFile.c_str()[count]))
+//		CountElementInMass++;
+//		count++;
+//	}
+//	ColCount = (CountElementInMass - RowCount) / RowCount;
+//	if ((ColCount * RowCount) != N*N)
+//	{
+//		cout << "this is not matrix (3*3)!" << endl;
+//		File.close();
+//		exit(-1);
+//	}
+//}
 
 int main(int argc, char* argv[])
 {
@@ -108,25 +132,20 @@ int main(int argc, char* argv[])
 		fIn.close();
 		return 0;
 	}
-	int iValue = 0;
-	vSizeOfFile(fIn, iValue);
-	fIn.clear(); // Resets the error bits
-	fIn.seekg(0, ios::beg); // Sets the pointer to the top file
-
-	if ((iValue >= 9) && (iValue <= 63))
-	{
-		vReadingFromFile(fIn, fMatrix);
+		ReadingFromFile(fIn, fMatrix);
+		fIn.close();
 		cout << "Source matrix: " << endl;
-		vShowfMatrix(fMatrix);
+		ShowfMatrix(fMatrix);
 		for (int j = 0; j < N; j++)
 		{
-			fModule = fMatrix[0][j] * fInverseFunction(fMatrix, 0, j) + fModule;
+			fModule = fMatrix[0][j] * InverseFunction(fMatrix, 0, j) + fModule;
 		}
 		cout << "\n\nThe determinant of the source matrix is:" << fModule << endl;
 
 		if (fModule == 0)
 		{
 			printf("\n\nSingular matrix!\n\n");
+			fIn.close();
 			return 0;
 		}
 
@@ -134,22 +153,15 @@ int main(int argc, char* argv[])
 		{
 			for (int j = 0; j < N; j++)
 			{
-				fInversfMatrix[j][i] = fInverseFunction(fMatrix, i, j) / fModule;
+				fInversfMatrix[j][i] = InverseFunction(fMatrix, i, j) / fModule;
 			}
 		}
 		printf("\n\nThe inverse matrix:\n");
-		vShowfMatrix(fInversfMatrix);
+		ShowfMatrix(fInversfMatrix);
 		printf("\n\nValidation of finding the inverse matrix:\n");
-		vMultiply(fMatrix, fInversfMatrix, fResultfMatrix);
-		vShowfMatrix(fResultfMatrix);
-		system("pause");
+		Multiply(fMatrix, fInversfMatrix, fResultfMatrix);
+		ShowfMatrix(fResultfMatrix);
 		printf("\n");
+		system("pause");
 		return 0;
-	}
-	else
-	{
-		cout << "Wrong format of the data in txt file!" << endl;
-		return 0;
-	}
-
 }
