@@ -1,23 +1,27 @@
 @echo off
 
 REM запуск программы где числа только нули 
-Lab1_Zad3_Var2_OOP.exe matrixNULL.txt
+Inverse_Matrix.exe matrixNULL.txt
 IF ERRORLEVEL 1 GOTO err
 
 REM запуск программы где в числах есть единицы
-Lab1_Zad3_Var2_OOP.exe matrixONE.txt
+Inverse_Matrix.exe matrixONE.txt
 IF ERRORLEVEL 1 GOTO err
 
 REM запуск программы с неполными параметрами
-Lab1_Zad3_Var2_OOP.exe
+Inverse_Matrix.exe
 IF ERRORLEVEL 1 GOTO err
 
-REM запуск программы с матрицой 2*3
-Lab1_Zad3_Var2_OOP.exe abracadabra.txt
+REM запуск программы с буквами
+Inverse_Matrix.exe MatrixWithWords.txt
+IF ERRORLEVEL 1 GOTO err
+
+REM запуск программы с 1 буквой
+Inverse_Matrix.exe MatrixWithWord.txt
 IF ERRORLEVEL 1 GOTO err
 
 REM запуск программы с верными параметрами
-Lab1_Zad3_Var2_OOP.exe matrix.txt
+Inverse_Matrix.exe matrix.txt
 IF ERRORLEVEL 1 GOTO err
 
 ECHO Program testing succeeded :-)
