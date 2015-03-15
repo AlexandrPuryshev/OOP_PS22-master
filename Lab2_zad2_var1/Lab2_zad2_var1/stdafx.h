@@ -14,8 +14,6 @@
 #include <functional>
 #include <iostream>
 
-using namespace std;
-
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
