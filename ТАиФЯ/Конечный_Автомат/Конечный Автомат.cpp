@@ -21,11 +21,55 @@ enum States
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	States state = State_Start;
-	ifstream input_file("Signals.txt"); //в файле числа 10
-	string text;
-	getline(input_file, text);
-	const size_t length = text.length();
+	//States state = State_Start;
+	//ifstream input_file("Signals.txt"); //в файле числа 10
+	//string text;
+	string MilliMatrix[3][4] =     {{ " ", "1", "2",  "3" },
+						     /*x*/ { "x","1/a","2/z","1/a"}, // a и z выходные сигналы
+						     /*y*/ { "y","3/a","1/a","2/z"}};
+
+	string MyrraMatrix[4][4];
+	for (int i = 0; i < 3; i++)
+	{
+
+		for (int j = 0; j < 4; j++)
+		{
+			MyrraMatrix[i + 1][j] = MyrraMatrix[i][j] + MilliMatrix[i][j][0];
+		}
+	}
+
+	int count = 0;
+	for (int i = 1; i < 3; i++)
+	{
+		if (count == 3) { break; }
+		for (int j = 1; j < 4; j++)
+		{
+			if ((isdigit(MilliMatrix[i][j][0])) && (isalpha(MilliMatrix[i][j][2]))) // если 1/a или 2/z
+			{
+				for (int k = 0; k < 4; k++)
+				{
+					if ((int(MilliMatrix[0][k][0])) == (int(MilliMatrix[i][j][0])))
+					{
+						count++;
+						MyrraMatrix[0][j] = MyrraMatrix[0][j] + MilliMatrix[i][j][2];
+					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		printf("\n");
+		for (int j = 0; j < 4; j++)
+		{
+			cout << "        " << MyrraMatrix[i][j];
+		}
+	}
+	getchar();
+	return 0;
+	// граф автомата
+	/*const size_t length = text.length();
 	for (size_t i = 0; i != length; ++i)
 	{																					
 		const char current = text[i];
@@ -69,7 +113,6 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 			break;
 		}
-	}
-	return 0;
+	}*/
 }
 
