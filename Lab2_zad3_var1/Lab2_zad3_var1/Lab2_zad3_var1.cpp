@@ -11,6 +11,6 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	string str = "Hello i am you friend and you support. Do you have any friend?";
 	map<string, int> MassOfWord = FindOfftenWord(str);
-	cout << ShowDictionary(MassOfWord);
+	cout << "the most frequent word: " << ShowDictionary(MassOfWord);
+	return 0;
 }
-
