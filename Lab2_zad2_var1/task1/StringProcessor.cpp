@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Functions.h"
+#include "StringProcessor.h"
 
 string RemoveExtraSpaces(std::string const& arg)
 {

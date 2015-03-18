@@ -1,9 +1,8 @@
-// Lab2_zad2_var1.cpp: определяет точку входа для консольного приложения.
+// task1.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
-#include "Functions.h"
-
+#include "StringProcessor.h"
 using namespace std;
 
 void CheckEmptyLine(string str)
@@ -23,4 +22,3 @@ int main(int argc, char* argv[])
 	std::cout << RemoveExtraSpaces(S);
 	return 0;
 }
-

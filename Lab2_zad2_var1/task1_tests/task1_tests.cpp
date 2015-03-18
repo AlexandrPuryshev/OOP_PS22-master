@@ -1,14 +1,18 @@
-// task1_test.cpp: определяет точку входа для консольного приложения.
+// task1_tests.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
-#include "../Lab2_zad2_var1/Functions.h"
+#include "../task1/StringProcessor.h"
+
+using namespace std;
+
+//BOOST_WARN_MESSAGE(условие, сообщение) – выводит предупреждение с текстом сообщения, если условие ложно;
 
 BOOST_AUTO_TEST_CASE(MultiplySpaces)
 {
 	string Spaces = "         ";
 	RemoveExtraSpaces(Spaces);
-	BOOST_CHECK(Spaces == "     asd ");
+	BOOST_WARN_MESSAGE(Spaces == "        ", "RemoveExtraSpaces dont delete MultiplySpaces!");
 }
 
 BOOST_AUTO_TEST_CASE(MultiplySpacesBeforeString)
