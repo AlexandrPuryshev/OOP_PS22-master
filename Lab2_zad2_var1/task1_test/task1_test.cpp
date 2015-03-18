@@ -8,7 +8,7 @@ BOOST_AUTO_TEST_CASE(MultiplySpaces)
 {
 	string Spaces = "         ";
 	RemoveExtraSpaces(Spaces);
-	BOOST_WARN_MESSAGE(Spaces == "", "RemoveExtraSpaces dont delete MultiplySpaces!");
+	BOOST_CHECK(Spaces == "     asd ");
 }
 
 BOOST_AUTO_TEST_CASE(MultiplySpacesBeforeString)

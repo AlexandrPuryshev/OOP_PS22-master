@@ -9,16 +9,15 @@
 
 #include <stdio.h>
 #include <tchar.h>
+
 #include <vector>
 #include <iostream>
 #include <algorithm> // std::sort
 #include <iterator> // it
 
-using namespace std;
-// TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
-
-
 #define	BOOST_TEST_MODULE TheAppModule
 #define BOOST_TEST_INCLUDED
 #pragma warning	(disable: 4702)
 #include  <boost/test/unit_test.hpp>
+
+// TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

@@ -15,7 +15,5 @@
 #include <algorithm> // std::sort
 #include <iterator>
 
-using namespace std;
-
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
