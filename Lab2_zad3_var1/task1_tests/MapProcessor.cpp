@@ -3,7 +3,7 @@
 
 map <string, int> FindOfftenWord(string const &line)
 {
-	int count = 0;
+	size_t count = 0;
 	int symbol;
 	string word = "";
 	map<string, int> Dictionary;
@@ -33,27 +33,4 @@ map <string, int> FindOfftenWord(string const &line)
 		count++;
 	} while (count <= line.size());
 	return Dictionary;
-}
-char* ShowDictionary(map <string, int> Dictionary)
-{
-	int Value = 0;
-	string Key;
-	char* Result;
-	map<string, int>::iterator it;
-	map<string, int>::iterator itEnd = Dictionary.end();
-
-	it = Dictionary.begin();
-
-	while (it != itEnd)
-	{
-		if (Value < (*it).second)
-		{
-			Value = (*it).second;
-			Key = (*it).first;
-		}
-		++it;
-	}
-	Result = new char[Key.length() + 1];
-	strcpy(Result, Key.c_str());
-	return Result;
 }

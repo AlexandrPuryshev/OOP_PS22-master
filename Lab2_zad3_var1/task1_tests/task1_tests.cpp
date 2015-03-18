@@ -40,3 +40,13 @@ BOOST_AUTO_TEST_CASE(SomeTwoEqualtWords2)
 	map<string, int> MassOfWord = FindOfftenWord(str);
 	BOOST_CHECK(MassOfWord["asdasd"] == 2);
 }
+
+BOOST_AUTO_TEST_CASE(MapIsEmpty)
+{
+	string str = "";
+	map<string, int> MassOfWord = FindOfftenWord(str);
+	BOOST_CHECK(MassOfWord.empty());
+}
+
+
+
