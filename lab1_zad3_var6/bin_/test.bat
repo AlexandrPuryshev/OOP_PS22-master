@@ -23,6 +23,8 @@ IF ERRORLEVEL 1 GOTO err
 REM запуск программы с верными параметрами
 Inverse_Matrix.exe matrix.txt
 IF ERRORLEVEL 1 GOTO err
+FC /B output.txt output1.txt
+
 
 ECHO Program testing succeeded :-)
 EXIT

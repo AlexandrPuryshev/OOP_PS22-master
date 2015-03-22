@@ -1,38 +1,30 @@
 #include "stdafx.h"
-#include <stdio.h>
-#include <iostream>
-#include <stdio.h>
-#include <fstream>
-#include <string>
-#include <Windows.h>
-
-using namespace std;
 
 const int N = 3; //dimension of the matrix (3 * 3)
 
-void Multiply(float fMatrix1[N][N], float fMatrix2[N][N], float fResultfMatrix[N][N])
+void Multiply(float Matrix1[N][N], float Matrix2[N][N], float ResultMatrix[N][N])
 {
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			fResultfMatrix[i][j] = 0;
+			ResultMatrix[i][j] = 0;
 			for (int k = 0; k < N; k++)
 			{
-				fResultfMatrix[i][j] += fMatrix1[k][j] * fMatrix2[i][k];
+				ResultMatrix[i][j] += Matrix1[k][j] * Matrix2[i][k];
 			}
 		}
 	}
 }
 
-void ReadingFromFile(ifstream &File, float fMatrix[N][N])
+void ReadingFromFile(ifstream &File, float Matrix[N][N])
 {
 	int i, j;
 	for (i = 0; i < N; i++)
 	{
 		for (j = 0; j < N; j++)
 		{
-				if (!(File >> fMatrix[i][j]))
+				if (!(File >> Matrix[i][j]))
 				{
 					cout << "this is not matrix (3*3)!" << endl;
 					File.close();
@@ -42,44 +34,46 @@ void ReadingFromFile(ifstream &File, float fMatrix[N][N])
 	}
 }
 
-void ShowfMatrix(float fMatrix[N][N])
+void ShowMatrix(float Matrix[N][N], ofstream &fOut)
 {
 	int i, j;
 	for (i = 0; i < N; i++)
 	{
+		fOut << "\n\n";
 		printf("\n\n");
 		for (j = 0; j < N; j++)
 		{
-			printf("|%6.3f|", fMatrix[i][j]);
+			fOut << std::fixed << std::setprecision(3) << "    " << Matrix[i][j];
+			printf("|%6.3f|", Matrix[i][j]);
 		}
 	}
 }
 
 
-float InverseFunction(float fMatrix[N][N], int iRow, int iCol)
+float InverseFunction(float Matrix[N][N], int iRow, int iCol)
 {
-	float fAdditMatrix[N - 1][N - 1];
+	float AdditMatrix[N - 1][N - 1];
 
-	int fAdditMatrixI = 0;
+	int AdditMatrixI = 0;
 	for (int i = 0; i < N; i++)
 	{
 		if (i == iRow) { continue; }
-		int fAdditMatrixJ = 0;
+		int AdditMatrixJ = 0;
 		for (int j = 0; j < N; j++)
 		{
 			if (j == iCol) { continue; }
-			fAdditMatrix[fAdditMatrixI][fAdditMatrixJ] = fMatrix[i][j];
-			fAdditMatrixJ++;
+			AdditMatrix[AdditMatrixI][AdditMatrixJ] = Matrix[i][j];
+			AdditMatrixJ++;
 		}
-		fAdditMatrixI++;
+		AdditMatrixI++;
 	}
 	if ((iRow + iCol) % 2 == 0)
-		return ((fAdditMatrix[0][0] * fAdditMatrix[1][1]) - (fAdditMatrix[0][1] * fAdditMatrix[1][0]));
+		return ((AdditMatrix[0][0] * AdditMatrix[1][1]) - (AdditMatrix[0][1] * AdditMatrix[1][0]));
 	else
-		return -((fAdditMatrix[0][0] * fAdditMatrix[1][1]) - (fAdditMatrix[0][1] * fAdditMatrix[1][0]));
+		return -((AdditMatrix[0][0] * AdditMatrix[1][1]) - (AdditMatrix[0][1] * AdditMatrix[1][0]));
 }
 
-//void CheckSizeOfMatrix(ifstream &File)
+//void CheckSizeOMatrix(ifstream &File)
 //{
 //	string StringAllFile;
 //	string StirngDitarminate;
@@ -120,29 +114,30 @@ int main(int argc, char* argv[])
 		cout << "Error: Invalid number of parameters!" << endl;
 		return 0;
 	}
-	float  fModule = 0;
-	float  fResultfMatrix[N][N];
-	float  fInversfMatrix[N][N];
-	float  fMatrix[N][N];
+	float  Module = 0;
+	float  ResultMatrix[N][N];
+	float  InversMatrix[N][N];
+	float  Matrix[N][N];
 	ifstream fIn;
 	fIn.open((const char*)argv[1], ios::in);
 	if (fIn.fail()) // check opening of the file
 	{
 		cout << "Error when opening files of reading" << endl;
-		fIn.close();
 		return 0;
 	}
-		ReadingFromFile(fIn, fMatrix);
+		ReadingFromFile(fIn, Matrix);
 		fIn.close();
+		ofstream fOut;
+		fOut.open("output.txt", ios::out);
 		cout << "Source matrix: " << endl;
-		ShowfMatrix(fMatrix);
+		ShowMatrix(Matrix, fOut);
 		for (int j = 0; j < N; j++)
 		{
-			fModule = fMatrix[0][j] * InverseFunction(fMatrix, 0, j) + fModule;
+			Module = Matrix[0][j] * InverseFunction(Matrix, 0, j) + Module;
 		}
-		cout << "\n\nThe determinant of the source matrix is:" << fModule << endl;
+		cout << "\n\nThe determinant of the source matrix is:" << Module << endl;
 
-		if (fModule == 0)
+		if (Module == 0)
 		{
 			printf("\n\nSingular matrix!\n\n");
 			fIn.close();
@@ -153,14 +148,17 @@ int main(int argc, char* argv[])
 		{
 			for (int j = 0; j < N; j++)
 			{
-				fInversfMatrix[j][i] = InverseFunction(fMatrix, i, j) / fModule;
+				InversMatrix[j][i] = InverseFunction(Matrix, i, j) / Module;
 			}
 		}
+
 		printf("\n\nThe inverse matrix:\n");
-		ShowfMatrix(fInversfMatrix);
+		fOut << "\n----------------------------";
+		ShowMatrix(InversMatrix, fOut);
+		fOut.close();
 		printf("\n\nValidation of finding the inverse matrix:\n");
-		Multiply(fMatrix, fInversfMatrix, fResultfMatrix);
-		ShowfMatrix(fResultfMatrix);
+		Multiply(Matrix, InversMatrix, ResultMatrix);
+		ShowMatrix(ResultMatrix, fOut);
 		printf("\n");
 		system("pause");
 		return 0;
