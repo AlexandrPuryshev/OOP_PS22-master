@@ -8,12 +8,12 @@
 using namespace std;
 
 // Function that reads a sign of number
-int iSign(float fValue) 
+int iSign(const float fValue) 
 {
 	return (fValue > 0) - (fValue < 0);
 }
 
-bool NuLLElementsIsExist(float a, float b, float c) // переименовать функцию, и ввод не числовых даных
+bool NuLLElementsIsExist(const float a const float b,const float c) // переименовать функцию, и ввод не числовых даных
 {
 	if (a == 0)
 	{
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 		c = atoi(argv[3]);
 		if (NuLLElementsIsExist(a, b, c) == true)
 		{
-			D = (b*b) - (4 * a*c); // discriminant
+			D = (b*b) - (4*a*c); // discriminant
 			switch (iSign(D))
 			{
 			case 0:
