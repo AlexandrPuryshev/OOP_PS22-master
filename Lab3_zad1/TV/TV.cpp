@@ -14,8 +14,8 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	int SelectOperation = 5;
-	while (SelectOperation != 0)
+	int selectOperation = 5;
+	while (selectOperation != 0)
 	{
 		cout << "---------------------------------" << endl;
 		cout << "1: Turn on the TV" << endl
@@ -24,19 +24,19 @@ int _tmain(int argc, _TCHAR* argv[])
 			<< "4: print a information" << endl
 			<< "for exit: press key 0" << endl;
 		cout << "Choose the operation: ";
-		cin >> SelectOperation;
+		cin >> selectOperation;
 		cout << "---------------------------------" << endl;
-		switch (SelectOperation)
+		switch (selectOperation)
 		{
 			case 1: { TV.add.TurnOn(); break; }
 			case 2: { TV.add.TurnOff(); break; }
 			case 3:
 			{
-					  int NumberOfChannel;
+					  int numberOfChannel;
 					  cout << "select a number channel: ";
-					  cin >> NumberOfChannel;
+					  cin >> numberOfChannel;
 					  cout << endl;
-					  TV.add.SelectChannel(NumberOfChannel);
+					  TV.add.SelectChannel(numberOfChannel);
 					  break;
 			}
 			case 4: { TV.add.Info(); break; }
