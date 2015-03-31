@@ -54,6 +54,30 @@ BOOST_AUTO_TEST_CASE(InitiallyIsTurnedOnAtChannel1)
 	BOOST_CHECK_EQUAL(tv.GetChannel(), 1);
 }
 
+BOOST_AUTO_TEST_CASE(TvIsTurnedOn_On_BeforeChannel)
+{
+	tv.TurnOn();
+	tv.SelectChannel(2);
+	tv.TurnOff();
+	tv.TurnOn();
+	BOOST_CHECK_EQUAL(tv.GetChannel(), 2);
+}
+
+BOOST_AUTO_TEST_CASE(CanNotTurnOffTheTVIsTurnedOff)
+{
+	tv.TurnOff();
+	tv.TurnOff();
+	BOOST_CHECK(tv.TurnOff() == false);
+}
+
+BOOST_AUTO_TEST_CASE(CanNotTurnOnTheTVIsTurnedOn)
+{
+	tv.TurnOn();
+	tv.TurnOn();
+	BOOST_CHECK(tv.TurnOn() == false);
+}
+
+
 BOOST_AUTO_TEST_CASE(CanSelectChannelFrom1To99WhenIsOn)
 {
 	tv.TurnOn();
