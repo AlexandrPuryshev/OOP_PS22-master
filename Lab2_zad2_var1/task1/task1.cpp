@@ -5,20 +5,25 @@
 #include "StringProcessor.h"
 using namespace std;
 
-void CheckEmptyLine(string str)
+bool CheckEmptyLine(const string str)
 {
-	if (str == "")
+	if (str.empty())
 	{
 		cout << "string is empty!" << endl;
-		exit(-1);
+		return false;
 	}
+	else
+		return true;
 }
 
 int main(int argc, char* argv[])
 {
-
-	string S = "Yeeeeahhh meeenn            i told     yoou itt???.. !1!    !!!!";
-	CheckEmptyLine(S);
-	std::cout << RemoveExtraSpaces(S);
-	return 0;
+	string str = "Yeeeeahhh meeenn            i told     yoou itt???.. !1!    !!!!";
+	if (CheckEmptyLine(str))
+	{
+		cout << RemoveExtraSpacesInString(str);
+		return 0;
+	}
+	else
+		return 0;
 }

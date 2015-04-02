@@ -4,5 +4,5 @@
 
 using namespace std;
 
-string RemoveExtraSpaces(std::string const& arg);
-void CheckEmptyLine(string str);
+string RemoveExtraSpacesInString(std::string const& arg);
+bool CheckEmptyLine(const string str);
