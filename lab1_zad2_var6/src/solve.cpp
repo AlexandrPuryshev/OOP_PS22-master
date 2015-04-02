@@ -8,12 +8,12 @@
 using namespace std;
 
 // Function that reads a sign of number
-int iSign(const float fValue) 
+int Sign(const float value) 
 {
-	return (fValue > 0) - (fValue < 0);
+	return (value > 0) - (value < 0);
 }
 
-bool NuLLElementsIsExist(const float a const float b,const float c) // переименовать функцию, и ввод не числовых даных
+bool NuLLElementsIsExist(const float a, const float b, const float c)
 {
 	if (a == 0)
 	{
@@ -49,44 +49,45 @@ bool NuLLElementsIsExist(const float a const float b,const float c) // переимено
 	}
 }
 
-bool isNumber(const std::string &String)
+bool IsNumber(const string &string)
 {
 	size_t offset = 0;
-	if (String[offset] == '-')
+	if (string[offset] == '-')
 		++offset;
-	return String.find_first_not_of("0123456789", offset) == std::string::npos;
+	return string.find_first_not_of("0123456789", offset) == std::string::npos;
 }
 
 int main(int argc, char* argv[])
 {
 	float a, b, c, D;
 	printf("Input polynome coefficientes (ax^2+bx+c=0):\n");
-	if (argc != 4)
+	const int PARAMS_COUNT = 4;
+	if (argc != PARAMS_COUNT)
 	{
 		cout << "Error: Invalid number of parameters!" << endl;
 		return 0;
 	}
-	if ((isNumber(argv[1]) == 1) && (isNumber(argv[2]) == 1) &&
-		(isNumber(argv[3]) == 1))
+	if ((IsNumber(argv[1]) == true) && (IsNumber(argv[2]) == true) &&
+		(IsNumber(argv[3]) == true))
 	{
-		a = atoi(argv[1]);
-		b = atoi(argv[2]);
-		c = atoi(argv[3]);
+		a = static_cast<float>(atoi(argv[1]));
+		b = static_cast<float>(atoi(argv[2]));
+		c = static_cast<float>(atoi(argv[3]));
 		if (NuLLElementsIsExist(a, b, c) == true)
 		{
-			D = (b*b) - (4*a*c); // discriminant
-			switch (iSign(D))
+			D = (b*b) - (4 * a*c); // discriminant
+			switch (Sign(D))
 			{
-			case 0:
-				printf("X=%3.4f\n", (-b / (2 * a))); // one root
-				return 0;
-			case 1:
-				printf("X1=%3.4f \nX2=%3.4f\n", (-b + sqrt(D)) / (2 * a), (-b - sqrt(D)) / (2 * a)); // two root
-				getchar();
-				return 0;
-			case -1:
-				printf("There is no real root\n"); // there are no roots
-				return 0;
+				case 0:
+					printf("X=%3.4f\n", (-b / (2 * a))); // one root
+					return 0;
+				case 1:
+					printf("X1=%3.4f \nX2=%3.4f\n", (-b + sqrt(D)) / (2 * a), (-b - sqrt(D)) / (2 * a)); // two root
+					getchar();
+					return 0;
+				case -1:
+					printf("There is no real root\n"); // there are no roots
+					return 0;
 			}
 		}
 	}
