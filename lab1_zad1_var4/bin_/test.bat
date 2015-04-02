@@ -1,4 +1,4 @@
-echo off
+@echo off
 
 REM запуск программы с несуществующими именами файлов 
 Replace_lab1.exe IncorrectFile.txt NoOpenFile.txt friend friends
@@ -51,6 +51,11 @@ REM запуск программы с верными параметрами
 Replace_lab1.exe input.txt output3.txt яблоко груша
 IF ERRORLEVEL 1 GOTO err
 FC /B output3.txt outputGRYSH.txt
+
+REM запуск программы с верными параметрами
+Replace_lab1.exe inputOnegin.txt output5.txt "Eвгений Онегин" Красиво
+IF ERRORLEVEL 1 GOTO err
+FC /B output5.txt outputOnegin.txt
 
 
 ECHO Program testing succeeded :-)

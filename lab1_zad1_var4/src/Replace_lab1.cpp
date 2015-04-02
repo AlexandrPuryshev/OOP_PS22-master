@@ -1,3 +1,4 @@
+// ForReplaceLab1_OOP.cpp: определяет точку входа для консольного приложения.
 #include "stdafx.h"
 #include <iostream>
 #include <fstream>
@@ -8,57 +9,27 @@
 
 using namespace std;
 
-void ReplaceStringsInString(string SearchString, string ReplaceString, string &ReplacerString)
+void ReplaceStringInFile(ifstream &fIn, ofstream &fOut, const string &searchString, const string &replaceString, bool &stringIsFound)
 {
-	size_t i, j;
-	size_t iLenStr = SearchString.length();
-	for (i = 0; i <= ReplacerString.size() - SearchString.size(); i++)
+	string strintFromFile;
+	getline(fIn, strintFromFile);
+	size_t positionInString = 0;
+	while ((positionInString = strintFromFile.find(searchString, positionInString)) != strintFromFile.npos)
 	{
-		for (j = 0; j + 1 < SearchString.size(); j++)
-		{
-			if (ReplacerString[i + j] != SearchString[j]) { break; }
-		}
-		if (j + 1 == SearchString.size())
-		{
-			ReplacerString.replace(i, j, ReplaceString);
-			i += SearchString.size();
-		}
+		strintFromFile.replace(positionInString, searchString.length(), replaceString);
+		positionInString += replaceString.length();
+		stringIsFound = true;
 	}
+	fOut << strintFromFile;
 }
 
-void ReplaceStringInFile(ifstream &fIn, ofstream &fOut, string SearchString, string ReplaceString, bool &StringIsFound)
+void OpenFilesAndReplaceStrings(const string &searchString, const string &replaceString, char* &pcharFileArgument1, char* &pcharFileArgument2)
 {
-	while (!fIn.eof() && SearchString.length() > 0)
+	if ((pcharFileArgument1[0] != 0) && (pcharFileArgument2[0] != 0))
 	{
-		string ReplacerString;
-		fIn >> ReplacerString;
-		size_t Position = ReplacerString.find(SearchString);
-		char SymbolTrancsfer = fIn.get();
-		if ((Position != std::string::npos) && (ReplacerString.size() > SearchString.size()))
-		{
-			StringIsFound = true;
-			ReplaceStringsInString(SearchString, ReplaceString, ReplacerString);
-		}
-		else if (ReplacerString == SearchString)
-		{
-			StringIsFound = true;
-			ReplacerString = ReplaceString;
-		}
-		if (SymbolTrancsfer != EOF)
-		{
-			ReplacerString = ReplacerString + SymbolTrancsfer;
-		}
-		fOut << ReplacerString;
-	}
-}
-
-void OpenFilesAndReplaceStrings(string SearchString, string ReplaceString, char* &FileArgument1, char* &FileArgument2)
-{
-	if ((strlen(FileArgument1) > 0) && (strlen(FileArgument2) > 0))
-	{
-		bool StringIsFound = false;
+		bool stringIsFound = false;
 		ifstream fIn;
-		fIn.open(FileArgument1, ios::in);
+		fIn.open(pcharFileArgument1, ios::in);
 		if (fIn.fail()) // check opening of the file
 		{
 			cout << "Error when opening files of reading" << endl;
@@ -67,14 +38,14 @@ void OpenFilesAndReplaceStrings(string SearchString, string ReplaceString, char*
 		else
 		{
 			ofstream fOut;
-			fOut.open((const char*)FileArgument2, ios::out);
+			fOut.open((const char*)pcharFileArgument2, ios::out);
 			if (fOut.fail())
 			{
 				cout << "Error when opening files of writing" << endl;
 				exit(-1);
 			}
-			ReplaceStringInFile(fIn, fOut, SearchString, ReplaceString, StringIsFound);
-			if (StringIsFound == false)
+			ReplaceStringInFile(fIn, fOut, searchString, replaceString, stringIsFound);
+			if (stringIsFound == false)
 			{
 				cout << "Such line isn't present!" << endl;
 			}
@@ -102,11 +73,11 @@ int main(int argc, char* argv[])
 		cout << "Incorrect format of input!" << endl;
 		return 0;
 	}
-	string SearchString, ReplaceString;
-	SearchString = (const char*)argv[3];
-	ReplaceString = (const char*)argv[4];
-	char* FileArgument1 = argv[1];
-	char* FileArgument2 = argv[2];
-	OpenFilesAndReplaceStrings(SearchString, ReplaceString, FileArgument1, FileArgument2);
+	string searchString, replaceString;
+	searchString = (const char*)argv[1];
+	replaceString = (const char*)argv[2];
+	char* pcharFileArgument1Input = argv[3];
+	char* pcharFileArgument2Output = argv[4];
+	OpenFilesAndReplaceStrings(searchString, replaceString, pcharFileArgument1Input, pcharFileArgument2Output);
 	return 0;
 }
