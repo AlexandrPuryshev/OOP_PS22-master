@@ -9,8 +9,9 @@
 
 using namespace std;
 
-void ReplaceStringInFile(ifstream &fIn, ofstream &fOut, const string &searchString, const string &replaceString, bool &stringIsFound)
+bool ReplaceStringInFile(ifstream &fIn, ofstream &fOut, const string &searchString, const string &replaceString)
 {
+	bool stringIsFound = false;
 	string strintFromFile;
 	getline(fIn, strintFromFile);
 	size_t positionInString = 0;
@@ -21,19 +22,19 @@ void ReplaceStringInFile(ifstream &fIn, ofstream &fOut, const string &searchStri
 		stringIsFound = true;
 	}
 	fOut << strintFromFile;
+	return stringIsFound;
 }
 
-void OpenFilesAndReplaceStrings(const string &searchString, const string &replaceString, char* &pcharFileArgument1, char* &pcharFileArgument2)
+bool OpenFilesAndReplaceStrings(const string &searchString, const string &replaceString, char* pcharFileArgument1, char* pcharFileArgument2)
 {
 	if ((pcharFileArgument1[0] != 0) && (pcharFileArgument2[0] != 0))
 	{
-		bool stringIsFound = false;
 		ifstream fIn;
-		fIn.open(pcharFileArgument1, ios::in);
+		fIn.open((const char*)pcharFileArgument1, ios::in);
 		if (fIn.fail()) // check opening of the file
 		{
 			cout << "Error when opening files of reading" << endl;
-			exit(-1);
+			return true;
 		}
 		else
 		{
@@ -42,24 +43,21 @@ void OpenFilesAndReplaceStrings(const string &searchString, const string &replac
 			if (fOut.fail())
 			{
 				cout << "Error when opening files of writing" << endl;
-				exit(-1);
+				return true;
 			}
-			ReplaceStringInFile(fIn, fOut, searchString, replaceString, stringIsFound);
-			if (stringIsFound == false)
+			if (!ReplaceStringInFile(fIn, fOut, searchString, replaceString))
 			{
 				cout << "Such line isn't present!" << endl;
+				return true;
 			}
 			else
 			{
 				cout << "Action is executed" << endl;
+				return true;
 			}
 		}
 	}
-	else
-	{
-		cout << "Such file isn't present!" << endl;
-		exit(-1);
-	}
+	return false;
 }
 
 int main(int argc, char* argv[])
@@ -78,6 +76,13 @@ int main(int argc, char* argv[])
 	replaceString = (const char*)argv[2];
 	char* pcharFileArgument1Input = argv[3];
 	char* pcharFileArgument2Output = argv[4];
-	OpenFilesAndReplaceStrings(searchString, replaceString, pcharFileArgument1Input, pcharFileArgument2Output);
-	return 0;
+	if (OpenFilesAndReplaceStrings(searchString, replaceString, pcharFileArgument1Input, pcharFileArgument2Output))
+	{
+		return 0;
+	}
+	else
+	{
+		cout << "Error when opening files" << endl;
+		return 0;
+	}
 }
