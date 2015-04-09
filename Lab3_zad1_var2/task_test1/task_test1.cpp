@@ -75,6 +75,45 @@ BOOST_AUTO_TEST_CASE(CanNotEngineTurnOnWhenHeIsTurnedOn)
 	BOOST_CHECK(car.TurnOnEngine() == false);
 }
 
+BOOST_AUTO_TEST_CASE(CanNotSetGearBackwardWhenGearIsGreat_1)
+{
+	car.TurnOnEngine();
+	car.SetGear(3);
+	car.SetSpeed(10);
+	car.SetGear(-1);
+	BOOST_CHECK(!car.SetGear(-1));
+}
+
+BOOST_AUTO_TEST_CASE(SetGearJustZeroWhenEngineTurnOff)
+{
+	car.TurnOnEngine();
+	car.TurnOffEngine();
+	BOOST_CHECK(!car.SetGear(2));
+	BOOST_CHECK(!car.SetGear(-1));
+	BOOST_CHECK(car.SetGear(0));
+}
+
+BOOST_AUTO_TEST_CASE(EngineTurnOffWhenSpeedIsZeroAndGearIsZero)
+{
+	car.TurnOnEngine();
+	car.SetGear(2);
+	car.SetSpeed(10);
+	BOOST_CHECK(!car.TurnOffEngine());
+	car.SetGear(0);
+	car.SetSpeed(0);
+	BOOST_CHECK(car.TurnOffEngine());
+}
+
+BOOST_AUTO_TEST_CASE(WithBacwardGearAfirstSwitchForTransmissionOfOnlyZeroSpeed)
+{
+	car.TurnOnEngine();
+	car.SetGear(-1);
+	car.SetSpeed(10);
+	BOOST_CHECK(!car.SetGear(1));
+	car.SetSpeed(0);
+	BOOST_CHECK(car.SetGear(1));
+}
+
 BOOST_AUTO_TEST_CASE(CanNotEngineTurnOffWhenHeIsTurnedOff)
 {
 	car.TurnOffEngine();

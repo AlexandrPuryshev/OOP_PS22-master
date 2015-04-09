@@ -24,8 +24,6 @@ bool CCar::TurnOnEngine()
 			m_EngineIsTurnedOn = true;
 			return m_EngineIsTurnedOn;
 		}
-		else
-			return false;
 	}
 	return false;
 }
@@ -39,8 +37,6 @@ bool CCar::TurnOffEngine()
 			m_EngineIsTurnedOn = false;
 			return true;
 		}
-		else
-			return false;
 	}
 	return false;
 }
@@ -68,9 +64,6 @@ int CCar::GetDirection()const
 bool CCar::SetGear(int gear)
 {
 	bool backwardMet = false;
-	// добавить ->
-	// переключившись на заднем ходу на нейтральную передачу на ненулевой скорости, переключиться
-	// на первую передачу можно только после остановки
 	if (-1 > gear || gear > 5)
 	{
 		return false;
@@ -95,20 +88,7 @@ bool CCar::SetGear(int gear)
 					}
 					case 1:
 					{
-							  if (m_gear == -1 && m_speed == 0 && m_direction == STAY)
-							  {
-
-									  m_gear = gear;
-									  m_direction = FORWARD;
-									  return true;
-							  }
-							  else if (m_gear == 0 && m_speed == 0 && m_direction == STAY && backwardMet == true)
-							  {
-								  m_gear = gear;
-								  m_direction = FORWARD;
-								  return true;
-							  }
-							  else if ((m_gear == -1 || m_gear == 0)&& m_speed > 0 && m_direction == BACKWARD)
+							  if ((m_gear == -1 || m_gear == 0) && m_speed > 0 && m_direction == BACKWARD) //
 							  {
 								  return false;
 							  }
@@ -140,6 +120,11 @@ bool CCar::SetGear(int gear)
 		}
 	else
 	{
+		if (gear == 0)
+		{
+			m_gear = gear;
+			return true;
+		}
 		return false;
 	}
 }
@@ -176,7 +161,7 @@ void CCar::Info()const
 	cout << "gear = " << GetGear() << endl;
 }
 
-bool RangeSpeedForGear(int speed, int &m_speed, int minimalRange, int maximalRange, int m_direction)
+bool CCar::RangeSpeedForGear(int speed, int minimalRange, int maximalRange)
 {
 	if (speed >= minimalRange && speed <= maximalRange)
 	{
@@ -221,7 +206,7 @@ bool CCar::SetSpeed(int speed)
 		case 1:
 		{
 
-				  if (RangeSpeedForGear(speed, m_speed, 0, 30, m_direction))
+				  if (RangeSpeedForGear(speed, 0, 30))
 				  {
 					  return true;
 				  }
@@ -233,47 +218,57 @@ bool CCar::SetSpeed(int speed)
 		}
 		case 2:
 		{
-				  if (RangeSpeedForGear(speed, m_speed, 20, 50, m_direction))
+				  if (RangeSpeedForGear(speed, 20, 50))
 				  {
 					  return true;
 				  }
 				  else
+				  {
 					  return false;
+				  }
 				  break;
 		}
 		case 3:
 		{
-				  if (RangeSpeedForGear(speed, m_speed, 30, 60, m_direction))
+				  if (RangeSpeedForGear(speed, 30, 60))
 				  {
 					  return true;
 				  }
 				  else
+				  {
 					  return false;
+				  }
 				  break;
 		}
 		case 4:
 		{
-				  if (RangeSpeedForGear(speed, m_speed, 40, 90, m_direction))
+				  if (RangeSpeedForGear(speed, 40, 90))
 				  {
 					  return true;
 				  }
 				  else
+				  {
 					  return false;
+				  }
 				  break;
 		}
 		case 5:
 		{
-				  if (RangeSpeedForGear(speed, m_speed, 50, 150, m_direction))
+				  if (RangeSpeedForGear(speed, 50, 150))
 				  {
 					  return true;
 				  }
 				  else
+				  {
 					  return false;
+				  }
 				  break;
 		}
 	}
 	else
+	{
 		return false;
+	}
 }
 
 

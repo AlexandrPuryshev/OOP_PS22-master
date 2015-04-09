@@ -26,7 +26,7 @@ int main()
 			<< "for exit: press key 0" << endl;
 		cout << "Choose the operation: ";
 		if (cin >> selectOperation)
-		{3
+		{
 			cout << "---------------------------------" << endl;
 			switch (selectOperation)
 			{

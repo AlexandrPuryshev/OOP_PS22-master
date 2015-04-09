@@ -4,7 +4,6 @@
 #define BACKWARD -1
 #define STAY	  0
 
-using namespace std;
 class CCar
 {
 public:
@@ -22,6 +21,7 @@ public:
 
 	bool SetGear(int gear);
 	bool SetSpeed(int speed);
+	bool RangeSpeedForGear(int speed, int minimalRange, int maximalRange);
 private:
 	int m_gear;
 	int m_speed;
