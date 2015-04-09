@@ -32,8 +32,8 @@ REM запуск программы где длина симолов > 256, а именно в файле - 430 pack
 crypt.exe pack input430.txt output430.txt
 IF ERRORLEVEL 1 GOTO err
 
-REM запуск программы с входным пустым файлом pack 
-crypt.exe pack inputNULL.txt outputNULL.txt
+REM запуск программы с запокованием самой себя
+crypt.exe pack crypt.exe crypt.exe.packed
 IF ERRORLEVEL 1 GOTO err
 
 REM запуск программы с входным пустым файлом unpack 

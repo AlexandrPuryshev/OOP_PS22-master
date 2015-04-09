@@ -7,137 +7,134 @@
 
 using namespace std;
 
-void vRleCompression(char *chInputString, ofstream &fOut)
+void RleCompression(char *chInputString, ofstream &fileOutput)
 {
 	char *CountSymbolMass = new char[256];
-	int iCount;
+	long count = 0;
 
 	char chFirstSymbol = chInputString[0];
-	iCount = 0;
 
-	for (int i = 0; i <= strlen(chInputString); i++)
+	for (size_t i = 0; i <= strlen(chInputString); ++i)
 	{
 		if (chInputString[i] == chFirstSymbol)
 		{
-			iCount++;
+			count++;
 		}
 		else
 		{
-			if (chInputString[i - 1] != '€')
+			if ((int)chInputString[i] == -96 || (int)chInputString[0] == -96)
 			{
-				cout << "Error: 255 symbol!" << endl;
-				fOut.close();
-				exit(-1);
+				cout << "Error: 255 ascii code symbol!" << endl;
+				fileOutput.close();
+				exit(0);
 			}
 			else
 			{
-				sprintf(CountSymbolMass, "%d", iCount);
-				fOut << CountSymbolMass;
-				sprintf(CountSymbolMass, "%c", chFirstSymbol);
-				fOut << CountSymbolMass;
+				sprintf_s(CountSymbolMass, 5, "%d%c", count, chFirstSymbol);
+				fileOutput << CountSymbolMass;
 				chFirstSymbol = chInputString[i];
-				iCount = 1;
+				count = 1;
 			}
 		}
 	}
-	fOut.close();
+	fileOutput.close();
 }
 
 
-void vRleDecompression(ifstream &fIn, ofstream &fOut)
+void RleDecompression(ifstream &fileInput, ofstream &fileOutput)
 {
-	char chSymbol;
-	int iValue;
+	char symbol;
+	int value;
 	do
 	{
-		fIn >> iValue >> chSymbol;
-		if (fIn.eof())
+		fileInput >> value >> symbol;
+		if (fileInput.eof())
 		{
 			break;
 		}
-		if ((chSymbol != '€') && (iValue < 256))
+		if (((int)symbol != -96) && (value < 256))
 		{
-			for (int i = 0; i < iValue; i++)// если символ не совпадает со слеующим символом в файле
+			for (int i = 0; i < value; i++)// если символ не совпадает со слеующим символом в файле
 			{
-				fOut << chSymbol;// записываем результаты в выходной файл
+				fileOutput << symbol;// записываем результаты в выходной файл
 			}
 		}
 		else
 		{
-			cout << "Error: 255 symbol!" << endl;
-			fOut.close();
+			cout << "Error: 255 ascii code symbol or length > 256!" << endl;
+			fileOutput.close();
+			exit(0);
 		}
 	} while (true);
-	fOut.close();
+	fileOutput.close();
 }
 
-void FIleInTop(ifstream &fIn)
+void FIleInTop(ifstream &fileInput)
 {
-	fIn.clear(); // Resets the error bits
-	fIn.seekg(0, ios::beg); // Sets the pointer to the top file
+	fileInput.clear(); // Resets the error bits
+	fileInput.seekg(0, ios::beg); // Sets the pointer to the top file
 }
 
-void TestStackOverflow(ifstream &fIn)
+void TestStringOverflow(ifstream &fileInput)
 {
 	string TestString;
-	getline(fIn, TestString);
+	getline(fileInput, TestString);
 	if (TestString.length() > 256)
 	{
-		cout << "Stack overflow in input file!" << endl;
-		fIn.close();
-		exit(-1);
+		cout << "String overflow in input file!" << endl;
+		fileInput.close();
+		exit(0);
 	}
 }
 
 int main(int argc, char* argv[])
 {
 	//////////////////////////////////////////////////////
-	char *chInputString = new char[256];
-	ifstream fIn;
-	fIn.open((const char*)argv[2], ios::in);
-	if (fIn.fail())
+	const int PARAMS_COUNT = 4;
+	if (argc != PARAMS_COUNT)
 	{
-		cout << "Error open the input file" << endl;
-		fIn.close();
+		cout << "Incorrect format of input!" << endl;
 		return 0;
 	}
-	TestStackOverflow(fIn);
-	FIleInTop(fIn);
-	fIn >> chInputString;
+	char *chInputString = new char[256];
+	ifstream fileInput((const char*)argv[2], ios::in | ios::binary);
+	if (!fileInput.is_open())
+	{
+		cout << "Error open the input file" << endl;
+		return 0;
+	}
+	TestStringOverflow(fileInput);
+	FIleInTop(fileInput);
+	fileInput >> chInputString;
 	if (strcmp(chInputString, "") == 0)
 	{
 		cout << "file is empty!" << endl;
-		fIn.close();
 		return 0;
 	}
 	//////////////////////////////////////////////////////
-	ofstream fOut;
-	fOut.open((const char*)argv[3], ios::out);
-	if (fOut.fail())
+	ofstream fileOutput;
+	fileOutput.open((const char*)argv[3], ios::out | ios::binary);
+	if (fileOutput.fail())
 	{
 		cout << "Error open the output file" << endl;
-		fOut.close();
 		return 0;
 	}
-	if (stricmp(argv[1], "pack") == 0)
+	if (_stricmp(argv[1], "pack") == 0)
 	{
-		vRleCompression(chInputString, fOut);
-		fIn.close();
+		RleCompression(chInputString, fileOutput);
 		cout << "crypt in outputfile!" << endl;
 	}
-	else if (stricmp(argv[1], "unpack") == 0)
+	else if (_stricmp(argv[1], "unpack") == 0)
 	{
-		FIleInTop(fIn);
-		vRleDecompression(fIn, fOut);
-		fIn.close();
+		FIleInTop(fileInput);
+		RleDecompression(fileInput, fileOutput);
 		cout << "decrypt in outputfile!" << endl;
 	}
 	else
 	{
 		printf("ERR0R: serious bug was found in second parameter!");
-		fIn.close();
-		fOut.close();
 		return 0;
 	}
+	//////////////////////////////////////////////////////
 	return 0;
 }
