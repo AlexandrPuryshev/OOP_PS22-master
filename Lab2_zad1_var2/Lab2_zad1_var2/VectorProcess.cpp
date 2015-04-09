@@ -9,12 +9,16 @@ void SortVectorAscending(vector <double> &Values)
 
 void ProcessVector(vector <double> &Numbers, vector <double> &Result)
 {
-	for (
-		vector<double>::const_iterator it = Numbers.begin();
-		it != Numbers.end();
-	++it
-		)
+	if (!Numbers.empty() && !Result.empty())
 	{
-		Result.push_back(*it * *min_element(Numbers.begin(), Numbers.end()));
+		double minElemntInVector = *min_element(Numbers.begin(), Numbers.end());
+		for (
+			vector<double>::const_iterator it = Numbers.begin();
+			it != Numbers.end();
+			++it
+			)
+		{
+			Result.push_back(*it * minElemntInVector);
+		}
 	}
 }

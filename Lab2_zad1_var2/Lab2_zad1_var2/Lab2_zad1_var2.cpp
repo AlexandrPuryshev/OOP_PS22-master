@@ -24,7 +24,6 @@ int main()
 	cout << "Введите последовательность чисел через enter: " << endl;
 	cout << "Чтобы закончить ввод введите не числовой символ!" << endl;
 	ReadingVector(Numbers);
-	assert(!Numbers.empty());
 	SortVectorAscending(Numbers);
 	printf("\n");
 	cout << "sorted source massive: ";
@@ -32,7 +31,8 @@ int main()
 	printf("\n");
 	cout << "Size Source vector: " << Numbers.size() << endl;
 	ProcessVector(Numbers, Result);
-	cout << "result massive after mupltiplication minimal digit on different: ";
+	Result.empty() ? cout << "result massive is empty!" :
+		cout << "result massive after mupltiplication minimal digit on different: ";
 	ShowVector(Result);
 	printf("\n");
 	cout << "Size Result vector: " << Result.size() << endl;

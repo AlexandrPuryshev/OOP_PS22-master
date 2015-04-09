@@ -17,9 +17,17 @@ BOOST_AUTO_TEST_CASE(VectorMultiplyOnMinimalElementWithoutError)
 	BOOST_CHECK_EQUAL_COLLECTIONS(MinMultiplyNumbers.begin(), MinMultiplyNumbers.end(), Results.begin(), Results.end());
 }
 
-BOOST_AUTO_TEST_CASE(VecotIsSorted)
+BOOST_AUTO_TEST_CASE(VecorIsSorted)
 {
 	vector <double> Numbers = { 1.123, 1.321, 0.512, 7.12, 1.5, };
 	SortVectorAscending(Numbers);
 	BOOST_CHECK(Numbers == vector <double>({ 0.512, 1.123, 1.321, 1.5, 7.12 }));
 }
+//????????????????????????????????????????????????????????
+BOOST_AUTO_TEST_CASE(VecorIsEmpty)
+{
+	vector <double> Numbers;
+	vector <double> Results;
+	ProcessVector(Numbers, Results);
+	BOOST_CHECK(Numbers.empty());
+} //  Assertion failed: vector iterator not dereferencable
