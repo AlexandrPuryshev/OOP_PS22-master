@@ -1,21 +1,24 @@
 #include "stdafx.h"
 #include "VectorProcess.h"
 
-void SortVectorAscending(vector <double> &Values)
+void SortVectorAscending(vector <double> &values)
 {
-	sort(Values.begin(), Values.end());
+	sort(values.begin(), values.end());
 }
 
 
-void ProcessVector(vector <double> &Numbers, vector <double> &Result)
+void ProcessVector(const vector <double> &numbers, vector <double> &result)
 {
-	double minElemntInVector = *min_element(Numbers.begin(), Numbers.end());
-	for (
-		vector<double>::const_iterator it = Numbers.begin();
-		it != Numbers.end();
-	++it
-		)
+	if (!numbers.empty())
 	{
-		Result.push_back(*it * minElemntInVector);
+		double minElemntInVector = *min_element(numbers.begin(), numbers.end());
+		for (
+			vector<double>::const_iterator it = numbers.begin();
+			it != numbers.end();
+		++it
+			)
+		{
+			result.push_back(*it * minElemntInVector);
+		}
 	}
 }

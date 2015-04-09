@@ -13,7 +13,9 @@
 #include <vector>
 #include <iostream>
 #include <algorithm> // std::sort
-#include <iterator> // it
+#include <iterator>
+
+using namespace std;
 
 #define	BOOST_TEST_MODULE TheAppModule
 #define BOOST_TEST_INCLUDED

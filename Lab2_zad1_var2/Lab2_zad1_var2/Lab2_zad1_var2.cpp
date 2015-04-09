@@ -5,14 +5,14 @@
 #include <assert.h>
 #include "VectorProcess.h"
 
-void ReadingVector(vector <double> &Values)
+void ReadingVector(vector <double> &values)
 {
-	copy(istream_iterator<double>(cin), istream_iterator<double>(), back_inserter(Values));
+	copy(istream_iterator<double>(cin), istream_iterator<double>(), back_inserter(values));
 }
 
-void ShowVector(vector <double> &Numbers)
+void ShowVector(const vector <double> &numbers)
 {
-	copy(Numbers.begin(), Numbers.end(), ostream_iterator<double>(cout, ", "));
+	copy(numbers.begin(), numbers.end(), ostream_iterator<double>(cout, ", "));
 }
 
 
