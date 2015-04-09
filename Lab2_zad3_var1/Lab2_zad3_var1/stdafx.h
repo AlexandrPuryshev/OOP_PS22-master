@@ -13,9 +13,11 @@
 #include <iostream>
 #include <assert.h>
 #include <string>
-#include <map>
 #include <vector>
 #include <stdio.h>
+
+using namespace std;
+
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

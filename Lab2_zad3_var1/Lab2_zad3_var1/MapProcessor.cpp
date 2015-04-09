@@ -3,58 +3,58 @@
 
 map <string, int> FindOfftenWord(string const &line)
 {
-	int count = 0;
-	int symbol;
-	string word = "";
-	map<string, int> Dictionary;
+	size_t count = 0;
+	int asciiCodeSymbol;
+	string word;
+	map<string, int> dictionary;
 	do
 	{
-		symbol = line[count];
-		if ((symbol < 65 || symbol > 122) || (symbol > 90 && symbol < 97))
+		asciiCodeSymbol = line[count];
+		if ((asciiCodeSymbol < 65 || asciiCodeSymbol > 122) || (asciiCodeSymbol > 90 && asciiCodeSymbol < 97))
 		{
 			if (!word.empty())
 			{
-				map <string, int>::iterator it = Dictionary.find(word);
-				if (it != Dictionary.end())
+				map <string, int>::iterator it = dictionary.find(word);
+				if (it != dictionary.end())
 				{
-					Dictionary[word]++;
+					++dictionary[word];
 				}
 				else
 				{
-					Dictionary[word] = 1;
+					dictionary[word] = 1;
 				}
 			}
 			word.clear();
 		}
 		else
 		{
-			word = word + line[count];
+			word.push_back(line[count]);
 		}
 		count++;
 	} while (count <= line.size());
-	return Dictionary;
+	return dictionary;
 }
 
-char* ShowDictionary(map <string, int> Dictionary)
+char* ShowDictionary(map <string, int> dictionary)
 {
-	int Value = 0;
-	string Key;
-	char* Result;
+	int value = 0;
+	string key;
+	char* result;
 	map<string, int>::iterator it;
-	map<string, int>::iterator itEnd = Dictionary.end();
+	map<string, int>::iterator itEnd = dictionary.end();
 
-	it = Dictionary.begin();
+	it = dictionary.begin();
 
 	while (it != itEnd)
 	{
-		if (Value < (*it).second)
+		if (value < (*it).second)
 		{
-			Value = (*it).second;
-			Key = (*it).first;
+			value = (*it).second;
+			key = (*it).first;
 		}
 		++it;
 	}
-	Result = new char[Key.length() + 1];
-	strcpy(Result, Key.c_str());
-	return Result;
+	result = new char[key.length() + 1];
+	strcpy_s(result, key.length() + 1, key.c_str());
+	return result;
 }

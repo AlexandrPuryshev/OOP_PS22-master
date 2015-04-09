@@ -10,7 +10,7 @@ using namespace std;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	string str = "Hello i am you friend and you support. Do you have any friend?";
-	map<string, int> MassOfWord = FindOfftenWord(str);
-	cout << "the most frequent word: " << ShowDictionary(MassOfWord);
+	map<string, int> massOfOfftenWord = FindOfftenWord(str);
+	cout << "the most frequent word: " << ShowDictionary(massOfOfftenWord);
 	return 0;
 }
