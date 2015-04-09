@@ -48,6 +48,15 @@ BOOST_AUTO_TEST_CASE(IsAtChannel0WhenTurnedOff)
 	BOOST_CHECK_EQUAL(tv.GetChannel(), 0);
 }
 
+BOOST_AUTO_TEST_CASE(ChooseChannelWhenTurnedOff)
+{
+	BOOST_CHECK_EQUAL(tv.GetChannel(), 0);
+	tv.TurnOn();
+	tv.TurnOff();
+	tv.SelectChannel(1);
+	BOOST_CHECK_EQUAL(tv.GetChannel(), 0);
+}
+
 BOOST_AUTO_TEST_CASE(InitiallyIsTurnedOnAtChannel1)
 {
 	tv.TurnOn();
