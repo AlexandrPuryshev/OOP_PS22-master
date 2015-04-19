@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include "Rectangle.h"
 
 using namespace std;
@@ -28,6 +29,16 @@ int CRectangle::GetPerimeter() const
 int CRectangle::GetRight() const
 {
 	return m_left + m_width;
+}
+
+int CRectangle::GetLeft() const
+{
+	return m_left;
+}
+
+int CRectangle::GetTop() const
+{
+	return m_top;
 }
 
 int CRectangle::GetBottom() const
@@ -69,9 +80,11 @@ void CRectangle::Scale(int sx, int sy)
 	}
 }
 
+
+
 bool CRectangle::Intersect(CRectangle const& other)
 {
-	if (GetBottom() > other.m_top || m_top < other.GetBottom() || m_left > other.GetRight() || GetRight() < other.m_left)
+	if (m_left > other.GetRight() || GetRight() < other.m_left || m_top > other.GetBottom() || GetBottom() < other.m_top)
 	{
 		m_width = 0;
 		m_height = 0;
@@ -79,23 +92,26 @@ bool CRectangle::Intersect(CRectangle const& other)
 	}
 	else
 	{
-		int m_left = max(m_left, other.m_left);
-		int m_top = min(m_top, other.m_top);
+		int maxLeft = max(m_left, other.m_left);
+		int maxTop = min(m_top, other.m_top);
 
 		int maxRight = max(GetRight(), other.GetRight());
 		int maxBottom = min(GetBottom(), other.GetBottom());
 
-		m_width = maxRight - m_left;
-		m_height = maxBottom - m_top;
+		m_left = maxLeft; 
+		m_top = maxTop;
+		m_width = maxRight - maxLeft;
+		m_height = maxBottom - maxTop;
 		return true;
 	}
 }
 
-void CRectangle::Info() const
+void CRectangle::PrintInFileInfo(ofstream &file) const
 {
-	cout << "Left Top: " << m_left << ";" << m_top << endl;
-	cout << "Size: " << GetWidth() << "*" << GetHeight() << endl;
-	cout << "Right bottom: " << GetRight() << ";" << GetBottom() << endl;
-	cout << "Area: " << GetArea() << endl;
-	cout << "Perimeter: " << GetPerimeter() << endl;
+	file << "	Left Top: " << m_left << ";" << m_top << endl;
+	file << "	Size: " << GetWidth() << "*" << GetHeight() << endl;
+	file << "	Right bottom: " << GetRight() << ";" << GetBottom() << endl;
+	file << "	Area: " << GetArea() << endl;
+	file << "	Perimeter: " << GetPerimeter() << endl;
+	file << endl;
 }

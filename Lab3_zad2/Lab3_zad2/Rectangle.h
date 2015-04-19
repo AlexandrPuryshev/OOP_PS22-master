@@ -1,4 +1,9 @@
 #pragma once
+#include <iostream>
+#include <fstream> 
+
+using namespace std;
+
 class CRectangle
 {
 public:
@@ -8,11 +13,13 @@ public:
 
 	void Move(int dx, int dy);
 	void Scale(int sx, int sy);
-	void Info()const;
+	void PrintInFileInfo(ofstream &file) const;
 	bool Intersect(CRectangle const& other);
 
 	int GetPerimeter() const;
 	int GetRight() const;
+	int GetLeft() const;
+	int GetTop() const;
 	int GetBottom() const;
 	int GetArea() const;
 	int GetHeight() const;
