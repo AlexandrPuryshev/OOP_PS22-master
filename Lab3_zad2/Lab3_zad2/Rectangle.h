@@ -2,7 +2,8 @@
 class CRectangle
 {
 public:
-	CRectangle(const int Left, const int Top, const int Width, const int Height);
+	CRectangle::CRectangle();
+	CRectangle(const int left, const int top, const int width, const int height);
 	~CRectangle();
 
 	void Move(int dx, int dy);
@@ -10,14 +11,18 @@ public:
 	void Info()const;
 	bool Intersect(CRectangle const& other);
 
+	int GetPerimeter() const;
+	int GetRight() const;
+	int GetBottom() const;
+	int GetArea() const;
+	int GetHeight() const;
+	int GetWidth() const;
+
 private:
-	int m_width;
-	int m_height;
 	int m_left;
 	int m_top;
-	int m_right;
-	int m_bottom;
-	int m_area;
-	int m_perimetr;
+
+	int m_width;
+	int m_height;
 };
 
