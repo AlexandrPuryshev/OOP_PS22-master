@@ -13,7 +13,7 @@ void ProcessVector(const vector <double> &numbers, vector <double> &result)
 	{
 		double minElemntInVector = *min_element(numbers.begin(), numbers.end());
 		for (
-			vector<double>::const_iterator it = numbers.begin();
+			auto it = numbers.begin();
 			it != numbers.end();
 			++it
 			)
