@@ -12,17 +12,17 @@ void RleCompression(char *chInputString, ofstream &fileOutput)
 	char *CountSymbolMass = new char[256];
 	long count = 0;
 
-	char chFirstSymbol = chInputString[0];
-
+	char FirstSymbol = chInputString[0];
+	int ascii255Symbol = -96;
 	for (size_t i = 0; i <= strlen(chInputString); ++i)
 	{
-		if (chInputString[i] == chFirstSymbol)
+		if (chInputString[i] == FirstSymbol)
 		{
 			count++;
 		}
 		else
 		{
-			if ((int)chInputString[i] == -96 || (int)chInputString[0] == -96)
+			if ((int)chInputString[i] == ascii255Symbol || (int)chInputString[0] == ascii255Symbol)
 			{
 				cout << "Error: 255 ascii code symbol!" << endl;
 				fileOutput.close();
@@ -30,13 +30,14 @@ void RleCompression(char *chInputString, ofstream &fileOutput)
 			}
 			else
 			{
-				sprintf_s(CountSymbolMass, 5, "%d%c", count, chFirstSymbol);
+				sprintf_s(CountSymbolMass, 5, "%d%c", count, FirstSymbol);
 				fileOutput << CountSymbolMass;
-				chFirstSymbol = chInputString[i];
+				FirstSymbol = chInputString[i];
 				count = 1;
 			}
 		}
 	}
+	delete[] CountSymbolMass;
 	fileOutput.close();
 }
 
@@ -45,6 +46,7 @@ void RleDecompression(ifstream &fileInput, ofstream &fileOutput)
 {
 	char symbol;
 	int value;
+	int ascii255Symbol = -96;
 	do
 	{
 		fileInput >> value >> symbol;
@@ -52,16 +54,16 @@ void RleDecompression(ifstream &fileInput, ofstream &fileOutput)
 		{
 			break;
 		}
-		if (((int)symbol != -96) && (value < 256))
+		if (((int)symbol != ascii255Symbol) && (value < 256))
 		{
 			for (int i = 0; i < value; i++)// если символ не совпадает со слеующим символом в файле
 			{
-				fileOutput << symbol;// записываем результаты в выходной файл
+				fileOutput << symbol; // записываем результаты в выходной файл
 			}
 		}
 		else
 		{
-			cout << "Error: 255 ascii code symbol or length > 256!" << endl;
+			cout << "Error: 255 ascii code symbol or length > 256!" << endl;                                     
 			fileOutput.close();
 			exit(0);
 		}
@@ -133,8 +135,10 @@ int main(int argc, char* argv[])
 	else
 	{
 		printf("ERR0R: serious bug was found in second parameter!");
+		delete[] chInputString;
 		return 0;
 	}
+	delete[] chInputString;
 	//////////////////////////////////////////////////////
 	return 0;
 }
