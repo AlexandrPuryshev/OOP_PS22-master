@@ -9,7 +9,7 @@ using namespace std;
 
 void RleCompression(char *chInputString, ofstream &fileOutput)
 {
-	char *CountSymbolMass = new char[256];
+	char *ñountSymbolMass = new char[256];
 	long count = 0;
 
 	char FirstSymbol = chInputString[0];
@@ -25,19 +25,20 @@ void RleCompression(char *chInputString, ofstream &fileOutput)
 			if ((int)chInputString[i] == ascii255Symbol || (int)chInputString[0] == ascii255Symbol)
 			{
 				cout << "Error: 255 ascii code symbol!" << endl;
+				delete[] ñountSymbolMass;
 				fileOutput.close();
 				exit(0);
 			}
 			else
 			{
-				sprintf_s(CountSymbolMass, 5, "%d%c", count, FirstSymbol);
-				fileOutput << CountSymbolMass;
+				sprintf_s(ñountSymbolMass, 5, "%d%c", count, FirstSymbol);
+				fileOutput << ñountSymbolMass;
 				FirstSymbol = chInputString[i];
 				count = 1;
 			}
 		}
 	}
-	delete[] CountSymbolMass;
+	delete[] ñountSymbolMass;
 	fileOutput.close();
 }
 
