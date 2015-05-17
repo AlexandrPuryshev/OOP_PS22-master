@@ -3,19 +3,23 @@
 
 using namespace std;
 
-class CCone final:public CSolidBody
+class CCylinder final: public CSolidBody
 {
 public:
-	CCone(double radius, double height, double density);
-	~CCone(void);
+
+	CCylinder(double radius, double height, double density);
+	~CCylinder(void);
 
 	double GetRadius() const;
 	double GetHeight() const;
-	double GetVolume() const override final;
+
+	virtual double GetVolume() const override;
 	virtual string GetInformation() const override;
+
 private:
 
-	double m_radius;	
 	double m_height;
+	double m_radius;
+
 };
 

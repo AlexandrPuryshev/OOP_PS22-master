@@ -1,13 +1,24 @@
 #pragma once
-#include "Body.h"
-class CParallelepiped : public CBody
+#include "SolidBody.h"
+#include <string>
+
+using namespace std;
+class CParallelepiped final: public CSolidBody
 {
 public:
-	CParallelepiped();
-	~CParallelepiped();
 
-	virtual double GetDensity() const override final;
+	CParallelepiped(double width, double height, double depth, double density);
+	~CParallelepiped(void);
 
-	virtual double GetMass() const override final;
+	double GetWidth() const;
+	double GetHeight() const;
+	double GetDepth() const;
+	virtual double GetVolume() const override;
+	virtual string GetInformation() const override;
+
+private:
+	double m_width;
+	double m_height;
+	double m_depth;
 };
 

@@ -2,11 +2,12 @@
 #include "Body.h"
 
 
-CBody::CBody(void)
+CBody::CBody()
 {
 }
 
 
-CBody::~CBody(void)
+CBody::~CBody()
 {
+
 }

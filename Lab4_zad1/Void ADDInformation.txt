@@ -1,0 +1,43 @@
+		//case 6:
+		//{
+		//	int selectShape;
+		//	cout << " 1: cone" << endl
+		//		<< " 2: cylinder" << endl
+		//		<< " 3: parallelepiped" << endl
+		//		<< " 4: sphere" << endl
+		//		<< " 5: compound" << endl;
+		//	cin >> selectShape;
+		//	switch (selectShape)
+		//	{
+		//	case 1:
+		//	{
+		//		CCone *cone;
+		//		cone->GetInformation();
+		//		break;
+		//	}
+		//	case 2:
+		//	{
+		//		CCylinder *cylinder;
+		//		cylinder->GetInformation();
+		//		break;
+		//	}
+		//	case 3:
+		//	{
+		//		CParallelepiped *parallelepiped;
+		//		parallelepiped->GetInformation();
+		//		break;
+		//	}
+		//	case 4:
+		//	{
+		//		CParallelepiped *sphere;
+		//		sphere->GetInformation();
+		//		break;
+		//	}
+		//	case 5:
+		//	{
+		//		CCompound *compound;
+		//		compound->GetInformation();
+		//		break;
+		//	}
+		//	}
+		//}

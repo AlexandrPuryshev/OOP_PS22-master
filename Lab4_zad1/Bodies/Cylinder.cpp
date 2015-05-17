@@ -1,38 +1,34 @@
 #include "stdafx.h"
-#include "Cone.h"
+#include "Cylinder.h"
 
-
-CCone::CCone(double radius, double height, double density)
-	:CSolidBody(density),
+CCylinder::CCylinder(double radius, double height, double density)
+	: CSolidBody(density),
 	m_radius(radius),
 	m_height(height)
-{
-}
+{}
 
+CCylinder::~CCylinder(void)
+{}
 
-CCone::~CCone(void)
-{
-}
-
-double CCone::GetRadius() const
+double CCylinder::GetRadius() const
 {
 	return m_radius;
 }
 
-double CCone::GetHeight() const
+double CCylinder::GetHeight() const
 {
 	return m_height;
 }
 
-double CCone::GetVolume() const
+double CCylinder::GetVolume() const
 {
-	return (M_PI / 3 * pow(m_radius, 2) * m_height);
+	return M_PI * m_radius * m_radius * m_height;
 }
 
-string CCone::GetInformation() const
+string CCylinder::GetInformation() const
 {
 	ostringstream informationReturn;
-	informationReturn << "CCone get started information: " << endl;
+	informationReturn << "CCylinder get started information: " << endl;
 	informationReturn << "Volume: " << GetVolume() << endl;
 	informationReturn << "Radius: " << GetRadius() << endl;
 	informationReturn << "Height: " << GetHeight() << endl;

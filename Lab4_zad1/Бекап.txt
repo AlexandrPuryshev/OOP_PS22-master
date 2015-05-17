@@ -1,0 +1,173 @@
+// Bodies.cpp : Defines the entry point for the console application.
+//
+#include "stdafx.h"
+#include "Body.h"
+#include "Compound.h"
+#include "Cone.h"
+#include "Cylinder.h"
+#include "Parallelepiped.h"
+#include "Sphere.h"
+#include <iomanip>
+
+CBody *AddBody();
+
+using namespace std;
+
+CBody *AddCone()
+{
+	double radius;
+	double height;
+	double density;
+	cout << "Radius, height and density" << endl;
+	if(cin >> radius >> height >> density)
+	{
+		return new CCone(radius, height, density);
+	}
+	return nullptr;
+}
+
+CBody *AddCylinder()
+{
+	double radius;
+	double height;
+	double density;
+	cout << "Radius, height and density" << endl;
+	if(cin >> radius >> height >> density)
+	{
+		return new CCylinder(radius, height, density);
+	}
+	return nullptr;
+}
+
+CBody *AddParallelepiped()
+{
+	double width;
+	double height;
+	double depth;
+	double density;
+	cout << "width, height, depth and density" << endl;
+	if(cin >> width >> height >> depth >> density)
+	{
+		return new CParallelepiped(width, height, depth, density);
+	}
+	return nullptr;
+}
+
+CBody *AddSphere()
+{
+	stringstream ss;
+	double radius;
+	double density;
+	cout << "radius and density" << endl;
+	if (cin >> radius >> density)
+	{
+		return new CSphere(radius, density);
+	}
+	return nullptr;
+}
+
+//поменять
+
+CBody *AddCompound()
+{
+	cout << "Enter bodies that compound would be consisting of:" << endl;
+	CCompound *compound = new CCompound();
+	CBody *compoundPart;
+	if (compound->GetContentsCount() == 0)
+	{
+		cout << "Cannot add empty compound body" << endl;
+		return nullptr;
+	}
+	else
+	{
+		compound->AddBody(shared_ptr<CBody>(compoundPart));
+		return compound;
+	}
+}
+
+void SelectCommands(vector<CBody*>vectorBody)
+{
+	int selectOperation = 1;
+	while (selectOperation != 0)
+	{
+		cout << "---------------------------------" << endl;
+		cout << " 1: cone" << endl
+			<< " 2: cylinder" << endl
+			<< " 3: parallelepiped" << endl
+			<< " 4: sphere" << endl
+			<< " 5: compound" << endl
+			<< "for exit: enter symbol: 0" << endl;
+		cout << "Choose the operation: ";
+		if (cin >> selectOperation)
+		{
+			cout << "---------------------------------" << endl;
+			switch (selectOperation)
+			{
+			case 1: { vectorBody.push_back(AddCone()); break; }
+			case 2: { vectorBody.push_back(AddCylinder()); break; }
+			case 3: { vectorBody.push_back(AddParallelepiped()); break; }
+			case 4: { vectorBody.push_back(AddSphere()); break; }
+			case 5: 
+			{ 
+				vectorBody.push_back(AddCompound()); break;
+				auto it = vectorBody.end();
+				if (it == NULL)
+				{
+					body = AddBody();
+				}
+			}
+			}
+		}	
+		else
+		{
+			break;	
+		}
+	}
+}
+
+
+double GetArchimedesForce(CBody *body)
+{
+	static const double waterDensity = 1000;
+	static const double g = 9.81;
+
+	return (body->GetDensity() - waterDensity) * g * body->GetVolume();
+}
+
+bool FloatCompareFunct(CBody *a, CBody *b)
+{
+	return GetArchimedesForce(a) < GetArchimedesForce(b);
+}
+
+bool MassCompareFunct(CBody *a, CBody *b)
+{
+	return a->GetMass() < b->GetMass();
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	CBody *body;
+	vector<CBody*> bodies;
+	SelectCommands(bodies);
+	if (bodies.empty())
+	{
+		cout << "You didn't add any bodies" << endl;
+		return 0;
+	}
+
+	auto maxMass = *max_element(bodies.begin(), bodies.end(), MassCompareFunct);
+	cout << "The body with the greatest mass is:" << endl;
+	cout << maxMass->GetInformation() << endl << endl;
+
+	auto lightestInWater = *min_element(bodies.begin(), bodies.end(), FloatCompareFunct);
+	cout << "The body which is lightest in water is:" << endl;
+	cout << GetArchimedesForce(lightestInWater) << endl << endl;
+
+	for (CBody *body : bodies)
+	{
+		delete body;
+	}
+
+	system("PAUSE");
+	return 0;
+}

@@ -8,8 +8,8 @@
 	имеет массу
 */
 
-static const double EXPECTED_RADIUS = 3.5;
-static const double EXPECTED_DENSITY = 8920;
+static const double EXPECTED_RADIUS = 5;
+static const double EXPECTED_DENSITY = 10000;
 
 struct SphereFixture
 {
@@ -32,8 +32,8 @@ BOOST_AUTO_TEST_CASE(HasVolume)
 {
 	const double EXPECTED_VOLUME = 4 * M_PI / 3 * pow(EXPECTED_RADIUS, 3);
 	BOOST_CHECK_EQUAL(sphere.GetVolume(), EXPECTED_VOLUME);
-	CBody & sphereAsBody = sphere;
-	BOOST_CHECK_EQUAL(sphereAsBody.GetVolume(), EXPECTED_VOLUME);
+	CBody &body = sphere;
+	BOOST_CHECK_EQUAL(body.GetVolume(), EXPECTED_VOLUME);
 }
 
 BOOST_AUTO_TEST_CASE(HasDensity)

@@ -1,14 +1,12 @@
 #pragma once
 #include "Body.h"
-class CSolidBody :
-	public CBody
+class CSolidBody : public CBody
 {
 public:
 	CSolidBody(double density);
-	~CSolidBody();
+	~CSolidBody(void);
 
 	virtual double GetDensity() const override final;
-
 	virtual double GetMass() const override final;
 
 private:
