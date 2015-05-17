@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(EngineCanBeTurnedOn)
 BOOST_AUTO_TEST_CASE(EngineCanBeTurnedOff)
 {
 	car.TurnOnEngine();
-	BOOST_CHECK(car.TurnOffEngine());
+	car.TurnOffEngine();
 	BOOST_CHECK(!car.EngineIsTurnedOn());
 }
 
@@ -78,11 +78,23 @@ BOOST_AUTO_TEST_CASE(CanNotEngineTurnOnWhenHeIsTurnedOn)
 BOOST_AUTO_TEST_CASE(CanNotSetGearBackwardWhenGearIsGreat_1)
 {
 	car.TurnOnEngine();
-	car.SetGear(3);
+	car.SetGear(1);
 	car.SetSpeed(10);
-	car.SetGear(-1);
+	BOOST_CHECK(!car.SetGear(5));
+}
+
+BOOST_AUTO_TEST_CASE(CanNotSetGearWhenSpeedGreatRangeThisGear)
+{
+	car.TurnOnEngine();
+	car.SetGear(1);
+	car.SetSpeed(10);
+	car.SetGear(2);
+	car.SetSpeed(40);
+	car.SetGear(3);
+	car.SetSpeed(50);
 	BOOST_CHECK(!car.SetGear(-1));
 }
+
 
 BOOST_AUTO_TEST_CASE(SetGearJustZeroWhenEngineTurnOff)
 {
@@ -96,8 +108,10 @@ BOOST_AUTO_TEST_CASE(SetGearJustZeroWhenEngineTurnOff)
 BOOST_AUTO_TEST_CASE(EngineTurnOffWhenSpeedIsZeroAndGearIsZero)
 {
 	car.TurnOnEngine();
-	car.SetGear(2);
+	car.SetGear(1);
 	car.SetSpeed(10);
+	car.SetGear(3);
+	car.SetSpeed(40);
 	BOOST_CHECK(!car.TurnOffEngine());
 	car.SetGear(0);
 	car.SetSpeed(0);
@@ -124,34 +138,34 @@ BOOST_AUTO_TEST_CASE(CanNotEngineTurnOffWhenHeIsTurnedOff)
 BOOST_AUTO_TEST_CASE(UpperNumbersOfTransfers)
 {
 	car.TurnOnEngine();
-	BOOST_CHECK_EQUAL(car.SetGear(-12), false);
-	BOOST_CHECK_EQUAL(car.SetGear(10), false);
-	BOOST_CHECK_EQUAL(car.SetGear(100), false);
-	BOOST_CHECK_EQUAL(car.SetGear(6), false);
+	BOOST_CHECK(!(car.SetGear(-12)));
+	BOOST_CHECK(!(car.SetGear(10)));
+	BOOST_CHECK(!(car.SetGear(100)));
+	BOOST_CHECK(!(car.SetGear(6)));
 }	
 
 BOOST_AUTO_TEST_CASE(ChooseSpeedCanNotUpperSelectedInGear_1)
 {
 	car.TurnOnEngine();
 	car.SetGear(1);
-	BOOST_CHECK(car.SetSpeed(-1) == false);
-	BOOST_CHECK(car.SetSpeed(100) == false);
+	BOOST_CHECK(!(car.SetSpeed(-1)));
+	BOOST_CHECK(!(car.SetSpeed(100)));
 }
 
 BOOST_AUTO_TEST_CASE(ChooseSpeedCanNotUpperSelectedInGear_2)
 {
 	car.TurnOnEngine();
 	car.SetGear(2);
-	BOOST_CHECK(car.SetSpeed(10) == false);
-	BOOST_CHECK(car.SetSpeed(60) == false);
+	BOOST_CHECK(!car.SetSpeed(10));
+	BOOST_CHECK(!car.SetSpeed(60));
 }
 
 BOOST_AUTO_TEST_CASE(ChooseSpeedCanNotUpperSelectedInGear_3)
 {
 	car.TurnOnEngine();
 	car.SetGear(3);
-	BOOST_CHECK(car.SetSpeed(20) == false);
-	BOOST_CHECK(car.SetSpeed(80) == false);
+	BOOST_CHECK(!(car.SetSpeed(20)));
+	BOOST_CHECK(!(car.SetSpeed(80)));
 }
 
 
@@ -159,16 +173,16 @@ BOOST_AUTO_TEST_CASE(ChooseSpeedCanNotUpperSelectedInGear_4)
 {
 	car.TurnOnEngine();
 	car.SetGear(4);
-	BOOST_CHECK(car.SetSpeed(30) == false);
-	BOOST_CHECK(car.SetSpeed(100) == false);
+	BOOST_CHECK(!(car.SetSpeed(30)));
+	BOOST_CHECK(!(car.SetSpeed(100)));
 }
 
 BOOST_AUTO_TEST_CASE(ChooseSpeedCanNotUpperSelectedInGear_5)
 {
 	car.TurnOnEngine();
 	car.SetGear(5);
-	BOOST_CHECK(car.SetSpeed(30) == false);
-	BOOST_CHECK(car.SetSpeed(200) == false);
+	BOOST_CHECK(!car.SetSpeed(30));
+	BOOST_CHECK(!car.SetSpeed(200));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

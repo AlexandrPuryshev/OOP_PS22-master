@@ -61,6 +61,19 @@ int CCar::GetDirection()const
 	return m_direction;
 }
 
+bool CCar::CheckBackWardGear(int gear)
+{
+	if (gear != -1)
+	{
+		m_gear = gear;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool CCar::SetGear(int gear)
 {
 	bool backwardMet = false;
@@ -70,54 +83,78 @@ bool CCar::SetGear(int gear)
 	}
 	if (EngineIsTurnedOn())
 	{
-			if (EngineIsTurnedOn())
+		switch (gear)
+		{
+		case -1:
+		{
+			
+			if ((m_gear == 0 || m_gear == 1) && m_speed == 0)
 			{
-				switch (gear)
-				{
-					case -1:
-					{
-							   if ((m_gear == 0 || m_gear == 1) && m_speed == 0)
-							   {
-								   m_gear = gear; 
-								   m_direction = BACKWARD;
-								   return true;
-								   backwardMet = true;
-							   }
-							   return false;
-							   break;
-					}
-					case 1:
-					{
-							  if ((m_gear == -1 || m_gear == 0) && m_speed > 0 && m_direction == BACKWARD) //
-							  {
-								  return false;
-							  }
-							  m_gear = gear;
-							  m_direction = FORWARD;
-							  return true;
-							  break;
-					}
-					case 0:
-					{
-						if (m_speed == 0)
-						{
-							m_direction = STAY;
-						}
-						m_gear = gear;
-						return true;
-					}
-				}
-				if (gear != -1)
-				{
-					m_gear = gear;
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				m_gear = gear;
+				m_direction = BACKWARD;
+				backwardMet = true;
+				return true;
 			}
+			return false;
 		}
+		case 1:
+		{
+			if ((m_gear == -1 || m_gear == 0) &&
+				m_speed > 0 && m_direction == BACKWARD)
+			{
+				return false;
+			}
+			m_gear = gear;
+			m_direction = FORWARD;
+			return true;
+		}
+		case 0:
+		{
+			if (m_speed == 0)
+			{
+				m_direction = STAY;
+			}
+			m_gear = gear;
+			return true;
+		}
+		case 2:
+		{
+			if (m_gear == 1 && m_speed > 20)
+			{
+				m_gear = gear;
+				return CheckBackWardGear(gear);
+			}
+			return false;
+		}
+		case 3:
+		{
+			if (m_gear == 2 && m_speed > 30)
+			{
+				m_gear = gear;
+				return CheckBackWardGear(gear);
+			}
+			return false;
+		}
+		case 4:
+		{
+			if (m_gear == 3 && m_speed > 40)
+			{
+				m_gear = gear;
+				return CheckBackWardGear(gear);
+			}
+			return false;
+		}
+		case 5:
+		{
+			if (m_gear == 4 && m_speed > 50)
+			{
+				m_gear = gear;
+				return CheckBackWardGear(gear);
+			}
+			return false;
+		}
+		}
+	}
 	else
 	{
 		if (gear == 0)
@@ -127,6 +164,7 @@ bool CCar::SetGear(int gear)
 		}
 		return false;
 	}
+	return false;
 }
 
 void CCar::Info()const
@@ -176,99 +214,62 @@ bool CCar::RangeSpeedForGear(int speed, int minimalRange, int maximalRange)
 bool CCar::SetSpeed(int speed)
 {
 	if ((speed >= 0 && speed <= 150) || EngineIsTurnedOn())
-	switch (m_gear)
 	{
+		switch (m_gear)
+		{
 		case -1:
 		{
-				   if (speed >= 0 && speed <= 20)
-				   {
-					   m_direction = BACKWARD;
-					   m_speed = speed;
-					   return true;
-				   }
-				   return false;
-				   break;
+			if (speed >= 0 && speed <= 20)
+			{
+				m_direction = BACKWARD; 
+				m_speed = speed;
+				return true;
+			}
+			return false;
 		}
 		case 0:
 		{
-				  if (speed < m_speed)
-				  {
-					  if (speed == 0)
-					  {
-						  m_direction = STAY;
-					  }
-					  m_speed = speed;
-					  return true;
-				  }
-				  return false;
-				  break;
+			if (speed < m_speed)
+			{
+				if (speed == 0)
+				{
+					m_direction = STAY;
+				}
+				m_speed = speed;
+				return true;
+			}
+			return false;
 		}
 		case 1:
 		{
 
-				  if (RangeSpeedForGear(speed, 0, 30))
-				  {
-					  return true;
-				  }
-				  else
-				  {
-					  return false;
-				  }
-				  break;
+			return RangeSpeedForGear(speed, 0, 30);
 		}
 		case 2:
 		{
-				  if (RangeSpeedForGear(speed, 20, 50))
-				  {
-					  return true;
-				  }
-				  else
-				  {
-					  return false;
-				  }
-				  break;
+			return RangeSpeedForGear(speed, 20, 50);
 		}
 		case 3:
 		{
-				  if (RangeSpeedForGear(speed, 30, 60))
-				  {
-					  return true;
-				  }
-				  else
-				  {
-					  return false;
-				  }
-				  break;
+			return RangeSpeedForGear(speed, 30, 60);
 		}
 		case 4:
 		{
-				  if (RangeSpeedForGear(speed, 40, 90))
-				  {
-					  return true;
-				  }
-				  else
-				  {
-					  return false;
-				  }
-				  break;
+			return RangeSpeedForGear(speed, 40, 90);
+
 		}
 		case 5:
 		{
-				  if (RangeSpeedForGear(speed, 50, 150))
-				  {
-					  return true;
-				  }
-				  else
-				  {
-					  return false;
-				  }
-				  break;
+			return RangeSpeedForGear(speed, 50, 150);
+
+		}
 		}
 	}
 	else
 	{
 		return false;
 	}
+	return false;
 }
 
 

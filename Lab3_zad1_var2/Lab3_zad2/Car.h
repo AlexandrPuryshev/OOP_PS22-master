@@ -23,6 +23,7 @@ public:
 	bool SetSpeed(int speed);
 	bool RangeSpeedForGear(int speed, int minimalRange, int maximalRange);
 private:
+	bool CheckBackWardGear(int gear);
 	int m_gear;
 	int m_speed;
 	int m_direction;
