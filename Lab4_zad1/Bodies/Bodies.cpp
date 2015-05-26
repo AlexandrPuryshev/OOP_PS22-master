@@ -71,7 +71,7 @@ shared_ptr<CBody>AddSphere()
 
 shared_ptr<CBody>AddCompound(int selectOperation)
 {
-	CCompound *compound_ptr = new CCompound(); //неправильное выделение памяти?
+	CCompound compound_ptr; //неправильное выделение памяти?
 	shared_ptr<CBody>body;
 	while ((body = AddBody(selectOperation)) != nullptr)
 	{
@@ -84,13 +84,11 @@ shared_ptr<CBody>AddCompound(int selectOperation)
 	}
 	else
 	{
-		auto compound_shared_ptr = make_shared<CCompound>(*compound_ptr);
-		delete compound_ptr;
+		auto compound_shared_ptr = make_shared<CCompound>(compound_ptr);
 		return compound_shared_ptr;
-
 	}
 }
-//переделать код под норм выделение памяти...
+//сделать на стеке
 shared_ptr<CBody>AddBody(int &selectOperation)
 {
 	shared_ptr<CBody>body;
