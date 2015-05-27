@@ -10,8 +10,9 @@ using namespace std;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	setlocale(LC_ALL, "Russian");
-	vector <double> result;
+	vector <double> resultVec;
 	pair<double, double> resultPair[3];
+	EquationRoots3 resultStruct;
 	int a,b,c,d, i;
 	int resultCube;
 	cout << "ВВедите 4 переменных: " << endl;
@@ -20,14 +21,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		try
 		{
-			resultCube = MethodVieta(result, b, c, d);
+			resultCube = MethodVieta(resultVec, b, c, d);
 			cout << "Всего корней уравнения: " << resultCube << endl;
+			resultStruct.numRoots = resultCube;
 			i = 0;
-			for (auto it : result)
+			for (auto it : resultVec)
 			{
 				i++;
 				cout << "X" << i << ")" << it << endl;
+				resultStruct.roots[i - 1] = it;
 			}
+
 		}
 		catch (exception e)
 		{
@@ -41,12 +45,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			resultCube = MethodKardano(resultPair, a, b, c, d);
 			cout << "Всего корней уравнения: " << resultCube << endl;
+			resultStruct.numRoots = resultCube;
 			i = 0;
 			cout << "корень, а затем мнимая часть: " << endl;
 			for (auto it : resultPair)
 			{
 				i++;
 				cout << "X" << i << ")" << it.first << ",  i * " << it.second << endl;
+				resultStruct.roots[i - 1] = it.first;
 			}
 		}
 		catch (exception e)
