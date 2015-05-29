@@ -11,11 +11,11 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////
 	std::string GetName() const;
 	std::string GetSurname() const;
-	std::string GetPatronimyc() const;
+	std::string GetPatronymic() const;
 	//////////////////////////////////////////////////////////////////////////////////
 	int GetAge() const;
-	std::string Rename(std::string name, std::string surname, std::string m_patronymic);
-	int SetAge(int age);
+	void Rename(std::string name, std::string surname, std::string patronymic);
+	void SetAge(int age);
 private:
 	int m_age;
 	std::string m_name;
@@ -23,7 +23,7 @@ private:
 	std::string m_patronymic;
 	//////////////////////////////////////////////////////////////////////////////////
 	bool IsCorrectAge(const int age);
-	bool stringIsAlphaAndNotHaveASpace(const std::string& s);
-	bool StringIsNotEmpty(const std::string & str);
+	bool stringIsAlphaAndNotHaveASpace(const std::string s);
+	bool StringIsNotEmpty(const std::string str);
 };
 

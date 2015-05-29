@@ -58,9 +58,9 @@ int MethodKardano(pair<double, double> x[3], double a, double b, double c, doubl
 	if (q == 0)
 		angle = M_PI / 2.0;
 	if (q < 0)
-		angle = atan(-2.0*sqrt(S) / q);
+		angle = atan(-2.0 * sqrt(S) / q);
 	if (q > 0)
-		angle = atan(-2.0*sqrt(S) / q) + M_PI;
+		angle = atan(-2.0 * sqrt(S) / q) + M_PI;
 	//////////////////////////////////////////////////////////////////////////////
 	for (int i = 0; i < 3; i++)
 	{ 
@@ -116,8 +116,8 @@ int MethodVieta(vector <double> &x, double a, double b, double c)
 	errno = 0;
 	std::feclearexcept(FE_ALL_EXCEPT);
 	double q, r, rSquare, qSquare, s, Sqrt_2_q;
-	q = (a * a - 3 * b) / 9; 
-	r = (a * (2 * a * a - 9 * b) + 27 * c) / 54;
+	q = (a * a - 3.0 * b) / 9.0; 
+	r = (a * (2.0 * a * a - 9.0 * b) + 27.0 * c) / 54.0;
 	rSquare = r * r;
 	qSquare = q * q * q;
 	s = qSquare - rSquare;
@@ -125,26 +125,26 @@ int MethodVieta(vector <double> &x, double a, double b, double c)
 	if (s > 0)
 	{
 		//уравнение имеет 3 корня(вещественных) :
-		double angle = (acos(r / sqrt(pow(qSquare, 3)))) / 3;
-		Sqrt_2_q = 2 * sqrt(q);
+		double angle = (acos(r / sqrt(pow(qSquare, 3.0)))) / 3.0;
+		Sqrt_2_q = 2.0 * sqrt(q);
 		if (errno == EDOM)
 		{
 			throw exception("errno = EDOM, sqrt have negative value!");
 			return 0;
 		}
-		x.push_back(-Sqrt_2_q * cos(angle) - a / 3);
-		x.push_back(-Sqrt_2_q * cos(angle + (2 * M_PI / 3)) - a / 3);
-		x.push_back(-Sqrt_2_q * cos(angle - (2 * M_PI / 3)) - a / 3);
+		x.push_back(-Sqrt_2_q * cos(angle) - a / 3.0);
+		x.push_back(-Sqrt_2_q * cos(angle + (2.0 * M_PI / 3.0)) - a / 3.0);
+		x.push_back(-Sqrt_2_q * cos(angle - (2.0 * M_PI / 3.0)) - a / 3.0);
 		return 3;
 	}
 	else if (s < 0)
 	{
-		double angle = (GetArchX(fabs(r) / sqrt(pow(fabs(q), 3)))) / 3;
+		double angle = (GetArchX(fabs(r) / sqrt(pow(fabs(q), 3)))) / 3.0;
 		if (angle != 0)
 		{
-			double expression = (((-2 * Sign(r) * sqrt(fabs(q)) * ((pow(M_E, angle) + pow(M_E, -angle)) / 2))) - a / 3);
-			double exceptionWithout_2 = (((Sign(r) * sqrt(fabs(q)) * ((pow(M_E, angle) + pow(M_E, -angle)) / 2))) - a / 3);
-			double expression2 = ((3 * sqrt(fabs(q)) * ((pow(M_E, angle) - pow(M_E, -angle)) / 2)));
+			double expression = (((-2.0 * Sign(r) * sqrt(fabs(q)) * ((pow(M_E, angle) + pow(M_E, -angle)) / 2))) - a / 3.0);
+			double exceptionWithout_2 = (((Sign(r) * sqrt(fabs(q)) * ((pow(M_E, angle) + pow(M_E, -angle)) / 2))) - a / 3.0);
+			double expression2 = ((3.0 * sqrt(fabs(q)) * ((pow(M_E, angle) - pow(M_E, -angle)) / 2.0)));
 			cout << "1) единственный корень (вещественный)" << endl;
 			x.push_back(expression);
 			cout << "2) мнимые корни 2 и 3" << endl;
@@ -161,9 +161,9 @@ int MethodVieta(vector <double> &x, double a, double b, double c)
 	//уравнение имеет меньше трех различных решений:
 	else if (s == 0)
 	{
-		x.push_back(-2 * cbrt(r) - a / 3);
-		x.push_back(cbrt(r) - a / 3);
-		x.push_back(cbrt(r) - a / 3);
+		x.push_back(-2 * cbrt(r) - a / 3.0);
+		x.push_back(cbrt(r) - a / 3.0);
+		x.push_back(cbrt(r) - a / 3.0);
 		return 3;
 	}
 	return 0;
