@@ -8,6 +8,7 @@
 #include <memory>
 		
 
+const double EPS = 1e-3;
 
 struct CompoundFixture
 {
@@ -37,8 +38,7 @@ BOOST_FIXTURE_TEST_SUITE(Compound, CompoundFixture)
 
 BOOST_AUTO_TEST_CASE(HasMass)
 {
-	BOOST_CHECK(compound.GetMass() == sphere.GetMass() + cone.GetMass() + cylinder.GetMass()
-		+ parallelepiped.GetMass());
+	BOOST_CHECK_CLOSE(compound.GetMass(), sphere.GetMass() + cone.GetMass() + cylinder.GetMass() + parallelepiped.GetMass(), EPS);
 }
 
 BOOST_AUTO_TEST_CASE(HasVolume)
@@ -47,37 +47,13 @@ BOOST_AUTO_TEST_CASE(HasVolume)
 		cone.GetVolume() + cylinder.GetVolume() + parallelepiped.GetVolume());
 }
 
-BOOST_AUTO_TEST_CASE(TestEmptyCompound)
-{
-	CCompound compound;
-	CBody &body = compound;
-
-	{
-		bool exceptionCaught = false;
-		try
-		{
-			body.GetDensity();
-		}
-		catch (const runtime_error &e)
-		{
-			(void)e;
-			exceptionCaught = true;
-		}
-		BOOST_CHECK(exceptionCaught);
-	}
-
-	BOOST_CHECK_EQUAL(body.GetVolume(), 0);
-	BOOST_CHECK_EQUAL(body.GetMass(), 0);
-}
-
-
 BOOST_AUTO_TEST_CASE(HasDensity)
 {
 	auto compoundVolume = sphere.GetVolume() + cone.GetVolume()
-		+ cylinder.GetVolume() + par.GetVolume();
+		+ cylinder.GetVolume() + parallelepiped.GetVolume();
 	auto compounddMass = sphere.GetMass() + cone.GetMass() 
-		+ cylinder.GetMass() + par.GetMass();
-	BOOST_CHECK(compound.GetVolume() == (compounddMass / compoundVolume));
+		+ cylinder.GetMass() + parallelepiped.GetMass();
+	BOOST_CHECK_CLOSE(compound.GetDensity(), (compounddMass / compoundVolume), EPS);
 }
 
 

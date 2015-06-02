@@ -9,7 +9,7 @@ public:
 
 	double GetRadius() const;
 	double GetVolume() const override final;
-	std::string GetInformation() const const override;
+	std::string GetInformation() const override;
 
 private:
 	double m_radius;

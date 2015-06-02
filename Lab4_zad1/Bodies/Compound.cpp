@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-CCompound::CCompound()
+CCompound::CCompound() :m_vectorBody(), m_volume(0), m_density(0), m_mass(0)
 {
 
 }
@@ -39,16 +39,20 @@ double CCompound::GetDensity() const
 //		return std::unique_ptr<Derived, Del>(nullptr, p.get_deleter());
 //	}
 
-void CCompound::AddBody(const std::shared_ptr<CBody> &ptrBody)
+void CCompound::AddBody(const std::shared_ptr<CBody> & ptrBody)
 {
-	if (this == ptrBody.get())
+	if (this == &(*ptrBody))
 	{
 		return;
 	}
-	m_mass = m_mass + ptrBody->GetMass();
-	m_volume = m_volume + ptrBody->GetVolume();
-	m_density = m_mass / m_volume;
-	m_vectorBody.push_back(ptrBody);
+	const CCompound * compound = dynamic_cast<const CCompound*>(ptrBody.get());
+	if (compound == nullptr)
+	{
+		m_vectorBody.push_back(ptrBody);
+		m_mass = m_mass + ptrBody->GetMass();
+		m_volume = m_volume + ptrBody->GetVolume();
+		m_density = m_mass / m_volume;
+	}
 }
 
 double CCompound::GetMass() const
@@ -70,7 +74,6 @@ string CCompound::GetInformation() const
 	informationReturn << "Mass: " << GetMass() << endl;
 	informationReturn << "Volume " << GetVolume() << endl;
 	informationReturn << "Density: " << GetDensity() << endl;
-	// возможно переделать под целый цикл
 	for (auto it : m_vectorBody)
 		informationReturn << it->GetInformation() << endl;
 	return informationReturn.str();

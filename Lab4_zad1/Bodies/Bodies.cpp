@@ -10,9 +10,10 @@
 #include <exception>
 #include <iomanip>
 
-shared_ptr<CBody>AddCompound(int selectOperation);
+shared_ptr<CBody>AddCompound(int &selectOperation);
 shared_ptr<CBody>AddBody(int &selectOperation);
 void SelectCommands(vector<shared_ptr<CBody>> &vectorBody);
+void invalidInput();
 using namespace std;
 
 shared_ptr<CBody>AddCone()
@@ -21,11 +22,11 @@ shared_ptr<CBody>AddCone()
 	double height;
 	double density;
 	cout << "Radius, height and density" << endl;
-	if (cin >> radius >> height >> density)
+	while(!(cin >> radius >> height >> density))
 	{
-		return make_shared<CCone>(radius, height, density);
+		invalidInput();
 	}
-	return nullptr;
+	return make_shared<CCone>(radius, height, density);
 }
 
 shared_ptr<CBody>AddCylinder()
@@ -34,11 +35,11 @@ shared_ptr<CBody>AddCylinder()
 	double height;
 	double density;
 	cout << "Radius, height and density" << endl;
-	if (cin >> radius >> height >> density)
+	while(!(cin >> radius >> height >> density))
 	{
-		return make_shared<CCylinder>(radius, height, density);
+		invalidInput();
 	}
-	return nullptr;
+	return make_shared<CCylinder>(radius, height, density);
 }
 
 
@@ -49,11 +50,11 @@ shared_ptr<CBody>AddParallelepiped()
 	double depth;
 	double density;
 	cout << "width, height, depth and density" << endl;
-	if (cin >> width >> height >> depth >> density)
+	while (!(cin >> width >> height >> depth >> density))
 	{
-		return make_shared<CParallelepiped>(width, height, depth, density);
+		invalidInput();
 	}
-	return nullptr; // что возвращать???
+	return make_shared<CParallelepiped>(width, height, depth, density);
 }
 
 shared_ptr<CBody>AddSphere()
@@ -61,36 +62,37 @@ shared_ptr<CBody>AddSphere()
 	double radius;
 	double density;
 	cout << "radius and density" << endl;
-	if (cin >> radius >> density)
+	while (!(cin >> radius >> density))
 	{
-		return make_shared<CSphere>(radius, density);
+		invalidInput();
 	}
-	return nullptr;
+	return make_shared<CSphere>(radius, density);
 }
 
 
-shared_ptr<CBody>AddCompound(int selectOperation)
+shared_ptr<CBody>AddCompound(int &selectOperation)
 {
-	CCompound compound_ptr; //неправильное выделение памяти?
+	shared_ptr<CCompound> compound = make_shared<CCompound>();
 	shared_ptr<CBody>body;
-	while ((body = AddBody(selectOperation)) != nullptr)
+	while (body = AddBody(selectOperation))
 	{
-		compound_ptr->AddBody(body); // вносятся какие то неправильные парамтеры!!!
+		compound->AddBody(body);
 	}
-	if (compound_ptr->GetSize() == 0)
+	if (compound->GetSize() == 0)
 	{
 		cout << "Error of add empty body -> return nullptr" << endl;
 		return nullptr;
 	}
 	else
 	{
-		auto compound_shared_ptr = make_shared<CCompound>(compound_ptr);
-		return compound_shared_ptr;
+		return compound;
 	}
 }
 //сделать на стеке
 shared_ptr<CBody>AddBody(int &selectOperation)
 {
+	cin.clear();
+	fflush(stdin);
 	shared_ptr<CBody>body;
 	cout << "---------------------------------" << endl;
 	cout << " 1: cone" << endl
@@ -110,11 +112,23 @@ shared_ptr<CBody>AddBody(int &selectOperation)
 		case 2: { body = AddCylinder(); break; }
 		case 3: { body = AddParallelepiped(); break; }
 		case 4: { body = AddSphere(); break; }
-		case 5: { body = AddCompound(selectOperation);break;}
-		}
-		//при выборе 5, а потом 0 selectOperation = 5...
-		if ((selectOperation < 1) || (selectOperation > 5)) // не выбирается selectOperation???
+		case 5: 
 		{
+			body = AddCompound(selectOperation);
+			if (body == nullptr)
+			{
+				body = AddBody(selectOperation);
+			}
+			break;
+
+		}
+		}
+		if ((selectOperation < 1) || (selectOperation > 5))
+		{
+			if (selectOperation == 0 && body != nullptr)
+			{
+				return body;
+			}
 			return nullptr;
 		}
 		else
@@ -127,6 +141,13 @@ shared_ptr<CBody>AddBody(int &selectOperation)
 		cout << "Error of input! " << endl;
 		return nullptr;
 	}
+}
+
+void invalidInput()
+{
+	cout << "Invalid input! Try again: ";
+	cin.clear();
+	while (cin.get() != '\n');
 }
 
 void SelectCommands(vector<shared_ptr<CBody>> &vectorBody)
@@ -189,7 +210,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//{
 	//	delete it;
 	//}
-	getchar();
+	system("pause");
 	return 0;
 }
 
