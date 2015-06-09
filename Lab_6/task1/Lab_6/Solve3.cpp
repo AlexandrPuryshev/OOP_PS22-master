@@ -148,8 +148,9 @@ int MethodVieta(vector <double> &x, double a, double b, double c)
 			cout << "1) единственный корень (вещественный)" << endl;
 			x.push_back(expression);
 			cout << "2) мнимые корни 2 и 3" << endl;
-			x.push_back(exceptionWithout_2 + expression2);
-			x.push_back(exceptionWithout_2 - expression2);
+			x.push_back(exceptionWithout_2); cout << "i * " << expression2 << endl;
+									
+			x.push_back(exceptionWithout_2); cout << "i * -" << expression2 << endl;
 			return 3;
 		}
 		else

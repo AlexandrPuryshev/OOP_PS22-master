@@ -24,7 +24,6 @@ bool CStudent::IsCorrectAge(const int age)
 	if (age < 14 || age > 60)
 	{
 		throw std::out_of_range("Age is out of range");
-		return false;
 	}
 	return true;
 }
