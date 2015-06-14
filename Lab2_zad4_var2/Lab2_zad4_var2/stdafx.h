@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <tchar.h>
 
+#include <vector>
 #include <iostream>
 #include <math.h>
 #include <set>

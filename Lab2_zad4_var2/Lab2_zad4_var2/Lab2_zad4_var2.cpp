@@ -8,12 +8,14 @@ using namespace std;
 int main()
 {
 	set <int> Set;
-	Set = GeneratePrimeNumbersSet(0);
+	Set = GeneratePrimeNumbersSet(10);
 	for (set<int>::const_iterator it = Set.begin();
 		it != Set.end();
 		it++)
 	{
 		cout << *it << ",";
 	}
+	printf("\n");
+	system("pause");
 }
 

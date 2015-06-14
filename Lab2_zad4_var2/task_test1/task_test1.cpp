@@ -6,15 +6,23 @@
 
 using namespace std;
 
-BOOST_AUTO_TEST_CASE(SetUpperBound10000)
+BOOST_AUTO_TEST_CASE(TwoSetIsEqual)
 {
-	BOOST_CHECK_NO_THROW(GeneratePrimeNumbersSet(10000))
+	set<int>testSet = GeneratePrimeNumbersSet(10);
+	set<int>testSet2 = GeneratePrimeNumbersSet(10);
+	BOOST_CHECK(testSet.size() == 4);
+	BOOST_CHECK(testSet2.size() == 4);
+	BOOST_CHECK(testSet == testSet2);
 }
 
-BOOST_AUTO_TEST_CASE(SetUpperBound100000001)
+BOOST_AUTO_TEST_CASE(SetUpperBound3)
 {
-	set<int>SetMillion = GeneratePrimeNumbersSet(100000001);
-	BOOST_CHECK(SetMillion.empty());
+	set<int>testSet = GeneratePrimeNumbersSet(3);
+	set<int>testSet2;
+	BOOST_CHECK(testSet.size() == 2);
+	testSet2.insert(2);
+	testSet2.insert(3);
+	assert(testSet == testSet2);
 }
 
 BOOST_AUTO_TEST_CASE(SetUpperBoundIsNegativeElement)
