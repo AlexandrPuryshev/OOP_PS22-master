@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(FindTheHighestSportsman)
 		Sportsman tallestSportsman;
 
 		BOOST_CHECK(FindMaxEx(sportsmen, tallestSportsman,
-			[](Sportsman const& a, Sportsman const& b){ return a.height < b.height; }));
+			[](Sportsman const& a, Sportsman const& b){ return a.height > b.height; }));
 
 		BOOST_CHECK_EQUAL(tallestSportsman.name, "Pasha");
 	}
